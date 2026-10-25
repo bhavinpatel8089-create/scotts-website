@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Contact Us · Scott's Sandwiches</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="styles.css">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}</style>
+</head>
+<body data-page="contact">
+<main>
+  <section class="pagehead">
+    <img src="img/grill.jpg" alt="" aria-hidden="true">
+    <div class="wrap"><span class="kicker" style="color:#fff">Contact us</span><h1>Come say hi</h1><p>Questions, feedback, lost property or a big order. Here's how to reach us.</p></div>
+  </section>
+  <section class="sec">
+    <div class="wrap">
+      <div class="split">
+        <div class="card2">
+          <h3>Scott's Palm Beach</h3>
+          <p style="margin:0 0 10px">1/1114 Gold Coast Highway<br>Palm Beach QLD 4221</p>
+          <dl class="hours"><dt>Online ordering</dt><dd>7:30am – 2:30pm</dd><dt>Brekky</dt><dd>Until 10:30am</dd><dt>Sandwiches</dt><dd>Until sold out</dd></dl>
+          <div class="copyrow"><span>Phone</span><b>0473 460 362</b><button type="button" data-copy="0473460362">Copy</button></div>
+          <div class="copyrow"><span>Email</span><b>hello@scottspalmbeach.com.au</b><button type="button" data-copy="hello@scottspalmbeach.com.au">Copy</button></div>
+          <div class="copyrow"><span>Instagram</span><a href="https://www.instagram.com/scotts_luncheonette_bar/" target="_blank" rel="noopener"><b>@scotts_luncheonette_bar</b></a></div>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:16px"><a class="pill" href="https://www.google.com/maps/search/?api=1&amp;query=1114+Gold+Coast+Highway+Palm+Beach+QLD+4221" target="_blank" rel="noopener">Get directions</a><a class="pill ghost" href="order.html">Order for pickup</a></div>
+        </div>
+        <form class="card2 form" id="ctForm" novalidate>
+          <h3>Send us a message</h3>
+          <label for="t1">Name</label><input id="t1" type="text" autocomplete="name">
+          <label for="t2">Email</label><input id="t2" type="text" inputmode="email" autocomplete="email">
+          <label for="t3">Topic</label><select id="t3"><option>General question</option><option>Feedback</option><option>Online order</option><option>Catering</option><option>Jobs</option></select>
+          <label for="t4">Message</label><textarea id="t4" rows="4"></textarea>
+          <button class="pill" type="submit">Send message</button>
+          <p id="ctMsg" class="note" hidden></p>
+        </form>
+      </div>
+      <div class="faq" style="margin-top:40px">
+        <details><summary>How does order-ahead pickup work?</summary><p>Order online, choose a pickup time and pay. Collect it from the counter under your name.</p></details>
+        <details><summary>Do you have gluten-free bread?</summary><p>Yes, any sanga can go on gluten-free bread for $5. Our kitchen handles gluten, so we can't guarantee there's no cross-contact.</p></details>
+        <details><summary>Do you have vegan options?</summary><p>Yes. The 'No Chicken' Sanga uses a plant-based fillet and vegan mayo, and our cold-pressed juices are vegan.</p></details>
+        <details><summary>What about allergies?</summary><p>Tell us about any allergy when you order. Our kitchen handles gluten, dairy, egg, fish and peanuts.</p></details>
+      </div>
+    </div>
+  </section>
+</main>
+<script src="app.js"></script>
+<script>
+$("#ctForm").addEventListener("submit",function(e){e.preventDefault();if(!$("#t1").value.trim()){$("#t1").focus();$("#t1").style.borderColor="var(--red)";return;}
+var m=$("#ctMsg");m.hidden=false;m.textContent="Preview. On the live site this goes to hello@scottspalmbeach.com.au. For now, email or call us.";});
+</script>
+</body>
+</html>

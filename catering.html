@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Catering · Scott's Sandwiches</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="styles.css">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}</style>
+</head>
+<body data-page="catering">
+<main>
+  <section class="pagehead">
+    <img src="img/philly.jpg" alt="" aria-hidden="true">
+    <div class="wrap">
+      <span class="kicker" style="color:#fff">Catering</span>
+      <h1>Sanga platters for your crew</h1>
+      <p>Offices, worksites, parties and game days on the Gold Coast. Toasted sangas, cut and boxed, ready to share. Order at least 24 hours ahead.</p>
+    </div>
+  </section>
+  <section class="sec">
+    <div class="wrap">
+      <div class="packs">
+        <div class="pack"><div class="ph"><img src="img/brisket.jpg" alt="" loading="lazy"></div><div class="in"><span class="kicker">Lunch</span><h3>Sanga platter</h3><p>A mix of our best sellers, cut in halves: Philly, brisket, Reuben, chicken and a veggie option. Great for 10 or more.</p></div></div>
+        <div class="pack"><div class="ph"><img src="img/cut.jpg" alt="" loading="lazy"></div><div class="in"><span class="kicker">Morning</span><h3>Brekky box</h3><p>Bacon brekky sangas, BRATs and avo brekky sangas for early starts and morning meetings.</p></div></div>
+        <div class="pack"><div class="ph"><img src="img/veg.jpg" alt="" loading="lazy"></div><div class="in"><span class="kicker">Extras</span><h3>Sides &amp; drinks</h3><p>Chips, sauces, cold-pressed juice, fresh OJ and iced coffee by the batch. Vegan and gluten-free options available.</p></div></div>
+      </div>
+      <div class="how" style="margin-top:28px">
+        <div><b>1</b>Send us your date, time and number of people.</div>
+        <div><b>2</b>We'll reply with a menu and quote within one business day.</div>
+        <div><b>3</b>Pick up from Palm Beach, or ask us about delivery.</div>
+      </div>
+    </div>
+  </section>
+  <section class="sec story">
+    <div class="wrap" style="display:block">
+      <div class="split">
+        <div class="card2">
+          <h3>Talk to us</h3>
+          <div class="copyrow"><span>Email</span><b>hello@scottspalmbeach.com.au</b><button type="button" data-copy="hello@scottspalmbeach.com.au">Copy</button></div>
+          <div class="copyrow"><span>Phone</span><b>0473 460 362</b><button type="button" data-copy="0473460362">Copy</button></div>
+          <p style="color:var(--muted);font-size:14px">We take orders 7:30am–2:30pm. We reply to catering emails within one business day.</p>
+        </div>
+        <form class="card2 form" id="catForm" novalidate>
+          <h3>Get a quote</h3>
+          <label for="c1">Name</label><input id="c1" type="text" autocomplete="name">
+          <label for="c2">Mobile or email</label><input id="c2" type="text">
+          <label for="c3">Date &amp; time</label><input id="c3" type="text" placeholder="e.g. Fri 14 Nov, 12pm">
+          <label for="c4">Number of people</label><input id="c4" type="text" inputmode="numeric">
+          <label for="c5">What do you need?</label><textarea id="c5" rows="3" placeholder="Platters, brekky boxes, dietary needs"></textarea>
+          <button class="pill" type="submit">Send enquiry</button>
+          <p id="catMsg" class="note" hidden></p>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+<script src="app.js"></script>
+<script>
+$("#catForm").addEventListener("submit",function(e){e.preventDefault();if(!$("#c1").value.trim()){$("#c1").focus();$("#c1").style.borderColor="var(--red)";return;}
+var m=$("#catMsg");m.hidden=false;m.textContent="Preview. On the live site this goes straight to hello@scottspalmbeach.com.au. For now, email or call us with these details.";});
+</script>
+</body>
+</html>

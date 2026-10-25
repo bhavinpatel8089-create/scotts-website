@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Order Online · Scott's Sandwiches</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="styles.css">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}</style>
+</head>
+<body data-page="order">
+<main>
+  <div class="wrap">
+    <div class="pickup">
+      <div><b>Pickup from 1/1114 Gold Coast Hwy, Palm Beach</b><small id="pickupWhen">ASAP</small></div>
+      <button type="button" id="changeTime">Change</button>
+    </div>
+    <div class="banner" role="img" aria-label="Sangas cooking on the grill"></div>
+    <nav class="cats" id="cats" aria-label="Menu categories">
+      <label class="search"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="q" type="search" placeholder="Search" aria-label="Search the menu"></label>
+    </nav>
+    <div class="diet" id="diet" role="group" aria-label="Filter by diet">
+      <button type="button" aria-pressed="false" data-diet="vg">Vegetarian</button>
+      <button type="button" aria-pressed="false" data-diet="ve">Vegan</button>
+      <button type="button" aria-pressed="false" data-diet="np">No pork</button>
+      <button type="button" aria-pressed="false" data-diet="sp">Spicy</button>
+    </div>
+    <div class="deals" style="margin-top:18px">
+      <div class="deal"><b>Make it a meal +$6.50</b><span>Side of chips and any drink with any sanga. Pick it when you add your sanga.</span></div>
+      <div class="deal dark"><b>Fresh OJ $10.50</b><span>100% oranges, freshly squeezed when you order.</span></div>
+      <div class="deal light"><b>Earn points</b><span>Members earn 1 point per $1. <a href="account.html">Create an account</a>.</span></div>
+    </div>
+    <div id="menu"></div>
+    <p class="empty" id="noResults" hidden>Nothing matches that search.</p>
+    <p id="synced" style="margin-top:28px;font-size:13px;color:var(--muted)"></p>
+    <div style="height:80px"></div>
+  </div>
+</main>
+<div class="mobilebar"><button class="pill" type="button" id="viewCart">View order</button></div>
+<script src="app.js"></script>
+<script src="sqmenu.js"></script>
+<script src="order.js"></script>
+</body>
+</html>

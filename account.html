@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Your Account · Scott's Sandwiches</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="styles.css">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}</style>
+</head>
+<body data-page="account">
+<main>
+  <section class="pagehead">
+    <img src="img/butter.jpg" alt="" aria-hidden="true">
+    <div class="wrap"><span class="kicker" style="color:#fff">Scott's Rewards</span><h1>Eat sangas. Earn sangas.</h1><p>Create an account, earn 1 point for every $1 you spend, and swap points for a free sanga or drink.</p></div>
+  </section>
+  <section class="sec">
+    <div class="wrap">
+      <div class="how" style="margin-bottom:28px">
+        <div><b>1 pt</b>for every $1 you spend, in store or online.</div>
+        <div><b>50 pts</b>gets you a free drink: iced coffee, juice or soft drink.</div>
+        <div><b>100 pts</b>gets you a free sanga of your choice.</div>
+      </div>
+      <div class="acct" id="acct"></div>
+      <p class="note" style="margin-top:22px">Preview. Your account here is saved in this browser only. On the live site, points come from Square Loyalty and follow your mobile number in store and online.</p>
+    </div>
+  </section>
+</main>
+<script src="app.js"></script>
+<script>
+(function(){
+  function render(){
+    var a=store.get("account",null),box=$("#acct");
+    if(!a){
+      box.innerHTML='<div class="card2"><div class="tabs" role="tablist"><button type="button" role="tab" aria-selected="true" data-t="new">Create account</button><button type="button" role="tab" aria-selected="false" data-t="in">Sign in</button></div>'+
+        '<form class="form" id="af" novalidate><div id="nameRow"><label for="a1">First name</label><input id="a1" type="text" autocomplete="given-name"></div>'+
+        '<label for="a2">Email</label><input id="a2" type="text" inputmode="email" autocomplete="email">'+
+        '<label for="a3">Mobile</label><input id="a3" type="tel" autocomplete="tel">'+
+        '<label style="display:flex;gap:8px;align-items:center;text-transform:none;letter-spacing:0;font-family:var(--mono);font-weight:400;font-size:13px"><input type="checkbox" id="a4" checked style="width:auto"> Send me Scott\'s Family deals</label>'+
+        '<button class="pill" type="submit" id="aGo">Create account</button><p id="aMsg" class="note" hidden></p></form></div>'+
+        '<div class="points"><span class="kicker" style="color:#fff">Welcome bonus</span><div class="big">+20 pts</div><p style="margin:0">Join today and get 20 points to start. That\'s 1/5 of the way to a free sanga.</p></div>';
+      var mode="new";
+      box.querySelector(".tabs").onclick=function(e){var b=e.target.closest("[data-t]");if(!b)return;mode=b.dataset.t;box.querySelectorAll(".tabs button").forEach(function(x){x.setAttribute("aria-selected",x===b);});$("#nameRow").hidden=mode!=="new";$("#aGo").textContent=mode==="new"?"Create account":"Sign in";};
+      $("#af").addEventListener("submit",function(e){e.preventDefault();var em=$("#a2").value.trim();if(!/^\S+@\S+\.\S+$/.test(em)){$("#a2").focus();$("#a2").style.borderColor="var(--red)";return;}
+        if(mode==="in"){var m=$("#aMsg");m.hidden=false;m.textContent="No account found for that email in this browser. Create one instead.";return;}
+        store.set("account",{name:$("#a1").value.trim()||"friend",email:em,points:20,redeemed:[]});render();});
+      return;
+    }
+    var p=a.points||0,next=p<50?50:p<100?100:100,pct=Math.min(100,Math.round(p/next*100));
+    box.innerHTML='<div class="points"><span class="kicker" style="color:#fff">Hi '+esc(a.name)+'</span><div class="big">'+p+' pts</div><div class="bar"><i style="width:'+pct+'%"></i></div><p style="margin:0">'+(p>=100?"You've got a free sanga waiting.":(next-p)+" points to your next reward.")+'</p>'+
+      '<div class="rewards-list"><div class="rw"><span>Free drink · 50 pts</span><button type="button" data-r="50"'+(p<50?" disabled":"")+'>Claim</button></div><div class="rw"><span>Free sanga · 100 pts</span><button type="button" data-r="100"'+(p<100?" disabled":"")+'>Claim</button></div></div></div>'+
+      '<div class="card2"><h3>Your details</h3><p style="margin:0 0 6px">'+esc(a.email)+'</p><p style="color:var(--muted);font-size:14px">Order online while signed in and your points add up automatically.</p><div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:12px"><a class="pill" href="order.html">Order &amp; earn</a><button class="pill ghost" type="button" id="out">Sign out</button></div><div id="claimed"></div></div>';
+    box.querySelectorAll("[data-r]").forEach(function(b){b.onclick=function(){var c=+b.dataset.r;a.points-=c;store.set("account",a);render();$("#claimed").innerHTML='<div class="docket" style="margin-top:16px"><div class="c"><b>REWARD CODE</b></div><hr><div class="c" style="font-size:22px"><b>SCOTT-'+(c===100?"SANGA":"DRINK")+'-'+Math.floor(1000+Math.random()*9000)+'</b></div><hr><div class="c">Show this at the counter</div></div>';};});
+    $("#out").onclick=function(){store.set("account",null);render();};
+  }
+  render();
+})();
+</script>
+</body>
+</html>
