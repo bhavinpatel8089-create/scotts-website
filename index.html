@@ -4,110 +4,147 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Scott's Luncheonette & Bar, Palm Beach Gold Coast. Hot sangas made fresh to order. Open every day 6am-3pm. Order online for pickup 7:30am-2:30pm.">
-<meta property="og:image" content="https://foodiemate.com.au/img/shoot/s-36.jpg">
 <link rel="icon" href="img/logo.png">
 <title>Scott's Luncheonette &amp; Bar | Palm Beach</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700;800&display=swap">
 <link rel="stylesheet" href="styles.css">
-<link rel="stylesheet" href="v2.css">
+
+<style>body{margin:0;background:#fff}</style>
 </head>
-<body data-page="home">
+<body>
 <div class="promo" id="promo" role="region" aria-label="Notice">
   <div class="wrap"><span class="sp"></span><span>Join Scott's Family: $3 off any sanga, once a week. <a href="#" data-join>Sign up</a></span><span class="sp"></span><button type="button" id="promoX" aria-label="Hide notice">&times;</button></div>
 </div>
 
 <main>
-  <section class="hero2">
-    <img src="img/shoot/s-36.jpg" alt="A table full of Scott's sangas in branded wrappers with a bowl of chips">
-    <div class="wrap">
-      <span class="eyebrow" style="color:#fff">Palm Beach, Gold Coast</span>
-      <h1>Hot sangas, made to order.</h1>
-      <p>Toasted bread, local meat, veg cut every morning. Grab one at the counter or order ahead for pickup.</p>
-      <div class="btns"><a class="pill light" href="order.html">Order for pickup</a><a class="pill line" href="menu.html">See the menu</a></div>
-    </div>
-  </section>
-
-  <section class="strip" aria-label="Opening hours">
-    <div class="wrap">
-      <div><b>Open every day</b><span>6am – 3pm</span></div>
-      <div><b>Order online</b><span>7:30am – 2:30pm, pickup</span></div>
-      <div><b>Brekky</b><span>Until 10:30am</span></div>
-      <div><b>Find us</b><span>1/1114 Gold Coast Hwy, Palm Beach</span></div>
-    </div>
-  </section>
-
-  <section class="s2" aria-labelledby="fav-h">
-    <div class="wrap">
-      <div class="head2"><div><span class="eyebrow">November menu</span><h2 id="fav-h">Crowd favourites</h2></div><a class="pill ghost" href="menu.html">Full menu</a></div>
-      <div class="favs">
-        <a class="fav" href="order.html"><div class="ph"><img src="img/menu/philly.jpg" alt="" loading="lazy"></div><h3>Philly Steak <span>$20</span></h3><p>Marinated rib fillet, cheese, caramelised onion &amp; capsicum, rocket, mayo.</p></a>
-        <a class="fav" href="order.html"><div class="ph"><img src="img/menu/butter-chicken.jpg" alt="" loading="lazy"></div><h3>Butter Chicken <span>$18</span></h3><p>Crispy fried chicken in creamy butter chicken sauce, pickles, lettuce, aioli.</p></a>
-        <a class="fav" href="order.html"><div class="ph"><img src="img/menu/brisket.jpg" alt="" loading="lazy"></div><h3>Smoky BBQ Brisket <span>$17</span></h3><p>Slow-cooked brisket, crunchy chilli slaw, pickles, BBQ glaze.</p></a>
-        <a class="fav" href="order.html"><div class="ph"><img src="img/menu/deli-stack.jpg" alt="" loading="lazy"></div><h3>The Deli Stack <span>$18</span></h3><p>Ham, salami, Reuben, cheese, lettuce, tomato, rocket, pickles, aioli.</p></a>
+  <section class="slider" aria-roledescription="carousel" aria-label="Offers and new arrivals">
+    <div class="slides" id="slides">
+      <div class="slide" role="group" aria-roledescription="slide" aria-label="1 of 4">
+        <img src="img/h_butter.jpg" alt="Butter chicken sanga with a bite taken">
+        <div class="wrap"><span class="kick">New arrival</span><h2>Butter Chicken Sanga</h2><p>Crispy fried chicken, creamy butter chicken sauce, pickles, lettuce and aioli on toasted bread. Limited time.</p><span class="price">$18</span><a class="pill white" href="order.html#chicken">Order now</a></div>
+      </div>
+      <div class="slide red" role="group" aria-roledescription="slide" aria-label="2 of 4">
+        <img src="img/h_philly.jpg" alt="Cheese sauce poured over a Philly cheese steak sanga" loading="lazy">
+        <div class="wrap"><span class="kick">Deal</span><h2>Make it a meal for $6.50</h2><p>Add a side of chips and any drink to any sanga.</p><span class="price">+$6.50</span><a class="pill white" href="order.html">Build your meal</a></div>
+      </div>
+      <div class="slide red full" role="group" aria-roledescription="slide" aria-label="3 of 4">
+        <div class="wrap"><span class="kick">Fresh every day</span><h2>100% freshly squeezed orange juice</h2><p>Oranges pressed to order. Nothing added, nothing from a bottle.</p><span class="price">$10.50</span><a class="pill white" href="order.html#juice">Add an OJ</a></div>
+      </div>
+      <div class="slide" role="group" aria-roledescription="slide" aria-label="4 of 4">
+        <img src="img/h_brisket.jpg" alt="Smoky BBQ brisket sanga cut in half" loading="lazy">
+        <div class="wrap"><span class="kick">November menu</span><h2>17 sangas. One counter.</h2><p>Philly, brisket, Reuben, fish katsu, smash burgers and more. See the full November menu.</p><a class="pill white" href="menu.html">See the menu</a></div>
       </div>
     </div>
+    <div class="dots" id="dots"></div>
+    <div class="arrows"><button type="button" id="prev" aria-label="Previous slide">&#8592;</button><button type="button" id="next" aria-label="Next slide">&#8594;</button></div>
   </section>
 
-  <section class="s2 cream" aria-labelledby="story-h">
-    <div class="wrap split2">
-      <div class="ph"><img src="img/shoot/s-41.jpg" alt="A Scott's sanga with chips and sauce on a tray" loading="lazy"></div>
+  <section class="fresh" aria-labelledby="fresh-h">
+    <div class="wrap">
+      <video src="vid/cooking.mp4" poster="img/poster.jpg" autoplay muted loop playsinline aria-label="Steak, onions, peppers and cheese cooking on the flat-top"></video>
       <div>
-        <span class="eyebrow">How we do it</span>
-        <h2 id="story-h">Fresh, every single morning.</h2>
-        <ul class="facts2">
-          <li><b>100%</b><span>Fresh veggies, cut in-house every day. Nothing pre-cut.</span></li>
-          <li><b>Local</b><span>Quality meat from local butchers, cooked on the flat-top when you order.</span></li>
-          <li><b>House</b><span>Pickles, sauces and slaws made here. Bread toasted to order.</span></li>
+        <h2 id="fresh-h">From the farm to your plate</h2>
+        <ul class="facts">
+          <li><b>100%</b><span>Fresh veggies, cut in-house every morning. Nothing frozen, nothing pre-cut.</span></li>
+          <li><b>Local</b><span>High-quality meat from local butchers, cooked to order on the flat-top.</span></li>
+          <li><b>Daily</b><span>Pickles, sauces and slaws made here. Bread toasted when you order.</span></li>
         </ul>
-        <a class="pill" href="about.html">Our story</a>
+        <a class="pill white" href="about.html">How we make it</a>
       </div>
     </div>
   </section>
 
-  <section class="s2" aria-labelledby="gal-h">
+  <section class="sec" aria-labelledby="join-h">
     <div class="wrap">
-      <div class="head2"><div><span class="eyebrow">The shop</span><h2 id="gal-h">Pull up a stool.</h2></div><a class="pill ghost" href="https://www.instagram.com/scotts_luncheonette_bar/" target="_blank" rel="noopener">@scotts_luncheonette_bar</a></div>
-      <div class="gal">
-        <figure class="w t"><img src="img/shoot/s-7.jpg" alt="Inside Scott's: bar, shelves and tables by the window" loading="lazy"></figure>
-        <figure><img src="img/shoot/s-23.jpg" alt="Sanga on a plate by the window" loading="lazy"></figure>
-        <figure><img src="img/shoot/s-45.jpg" alt="Margarita with a salted rim" loading="lazy"></figure>
-        <figure><img src="img/shoot/s-15.jpg" alt="City of Gold Coast print on the wall" loading="lazy"></figure>
-        <figure><img src="img/shoot/s-31.jpg" alt="Sanga with a City of Gold Coast print behind" loading="lazy"></figure>
-        <figure class="w"><img src="img/shoot/s-37.jpg" alt="Nine sangas cut in half, laid out on timber" loading="lazy"></figure>
-        <figure><img src="img/shoot/s-19.jpg" alt="The bar with mint panelling" loading="lazy"></figure>
-        <figure><img src="img/shoot/chef.jpg" alt="Chef holding a sanga cut in half" loading="lazy"></figure>
+      <div class="center"><h2 id="join-h">Stay in the family</h2><p class="sub">Deals, points and new drops. Pick how you want to hear from us.</p></div>
+      <div class="join3">
+        <div class="jcard red">
+          <h3>Join Scott's Family</h3>
+          <p>$3 off any sanga, once a week, plus member-only deals straight to your inbox.</p>
+          <button class="pill white" type="button" data-join>Sign up with email</button>
+        </div>
+        <div class="jcard ink">
+          <h3>Earn free sangas</h3>
+          <p>Create an account, collect points on every order and swap them for a free sanga or drink.</p>
+          <a class="pill white" href="account.html">Create account</a>
+        </div>
+        <div class="jcard">
+          <h3>Follow us on Insta</h3>
+          <p>New sangas, the weekly deal and what's on the grill at @scotts_luncheonette_bar.</p>
+          <a class="pill" href="https://www.instagram.com/scotts_luncheonette_bar/" target="_blank" rel="noopener">Open Instagram</a>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="s2 band" aria-labelledby="band-h">
+  <section class="sec story" aria-labelledby="news-h">
+    <div class="wrap" style="display:block">
+      <span class="kicker">News room</span>
+      <h2 id="news-h">What's new at Scott's</h2>
+      <div class="news" style="margin-top:22px">
+        <article class="post">
+          <div class="ph"><img src="img/h_butter.jpg" alt="" loading="lazy"></div>
+          <time datetime="2026-10">October 2026</time>
+          <h3>The Butter Chicken Sanga has landed</h3>
+          <p>Our first fusion sanga: crispy fried chicken in creamy butter chicken sauce. Here for a limited time.</p>
+          <a class="pill ghost" href="order.html#chicken" style="align-self:flex-start">Order it</a>
+        </article>
+        <article class="post">
+          <div class="ph"><img src="img/brisket.jpg" alt="" loading="lazy"></div>
+          <time datetime="2026-11">November 2026</time>
+          <h3>Our new November menu</h3>
+          <p>17 sangas, new brekky, fresh juices and a $6.50 meal deal. Everything made to order.</p>
+          <a class="pill ghost" href="menu.html" style="align-self:flex-start">See the menu</a>
+        </article>
+        <article class="post">
+          <div class="ph"><img src="img/cut.jpg" alt="" loading="lazy"></div>
+          <time datetime="2026-11">November 2026</time>
+          <h3>Scott's Family is open</h3>
+          <p>Sign up for $3 off any sanga once a week, and create an account to start collecting points.</p>
+          <button class="pill ghost" type="button" data-join style="align-self:flex-start">Join now</button>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="visit-h">
     <div class="wrap">
-      <h2 id="band-h">Skip the line.</h2>
-      <p>Order online from 7:30am to 2:30pm. Pay on your phone, and it's hot and wrapped when you get here.</p>
-      <a class="pill light" href="order.html">Order now</a>
-    </div>
-  </section>
-
-  <section class="s2" aria-labelledby="visit-h">
-    <div class="wrap visit">
-      <div>
-        <span class="eyebrow">Come hungry</span>
-        <h2 id="visit-h">Scott's Palm Beach</h2>
-        <p class="lead">1/1114 Gold Coast Highway, Palm Beach QLD 4221</p>
-        <dl><dt>Open</dt><dd>Every day 6am – 3pm</dd><dt>Online ordering</dt><dd>7:30am – 2:30pm</dd><dt>Brekky</dt><dd>Until 10:30am</dd><dt>Phone</dt><dd><a href="tel:0473460362">0473 460 362</a></dd></dl>
-        <div style="display:flex;flex-wrap:wrap;gap:10px"><a class="pill" href="order.html">Order for pickup</a><a class="pill ghost" href="https://www.google.com/maps/search/?api=1&amp;query=1114+Gold+Coast+Highway+Palm+Beach+QLD+4221" target="_blank" rel="noopener">Get directions</a></div>
+      <div class="split">
+        <div>
+          <span class="kicker">Come hungry</span>
+          <h2 id="visit-h" style="font-family:var(--head);font-weight:900;font-size:clamp(36px,4.6vw,56px);margin:6px 0 14px">Scott's Palm Beach</h2>
+          <p style="margin:0 0 6px">1/1114 Gold Coast Highway, Palm Beach QLD 4221</p>
+          <dl class="hours"><dt>Open</dt><dd>Every day 6am – 3pm</dd><dt>Online ordering</dt><dd>7:30am – 2:30pm</dd><dt>Brekky</dt><dd>Until 10:30am</dd><dt>Sandwiches</dt><dd>Until sold out</dd></dl>
+          <div style="display:flex;flex-wrap:wrap;gap:10px"><a class="pill" href="order.html">Order for pickup</a><a class="pill ghost" href="https://www.google.com/maps/search/?api=1&amp;query=1114+Gold+Coast+Highway+Palm+Beach+QLD+4221" target="_blank" rel="noopener">Get directions</a></div>
+        </div>
+        <div class="ph" style="border-radius:20px;overflow:hidden;aspect-ratio:4/3"><img src="img/h_grill.jpg" alt="Cheese melting over steak and peppers on the grill" loading="lazy" style="width:100%;height:100%;object-fit:cover"></div>
       </div>
-      <div class="ph"><img src="img/shoot/s-2.jpg" alt="Tables and mint-panelled counter inside Scott's" loading="lazy"></div>
     </div>
   </section>
 </main>
 
+<script>document.body.setAttribute("data-page","home");</script>
 <script src="app.js"></script>
 <script>
-(function(){var p=document.getElementById("promo");try{if(sessionStorage.getItem("promoHidden")==="1")p.hidden=true;}catch(e){}
-document.getElementById("promoX").onclick=function(){p.hidden=true;try{sessionStorage.setItem("promoHidden","1");}catch(e){}};})();
+(function(){
+  var p=$("#promo");try{if(sessionStorage.getItem("promoHidden")==="1")p.hidden=true;}catch(e){}
+  $("#promoX").onclick=function(){p.hidden=true;try{sessionStorage.setItem("promoHidden","1");}catch(e){}};
+  /* slider: slides left to right, holds each slide for 5 seconds */
+  var track=$("#slides"),n=track.children.length,i=0,timer=null;
+  var dots=$("#dots");for(var k=0;k<n;k++)dots.insertAdjacentHTML("beforeend",'<button type="button" aria-label="Go to slide '+(k+1)+'"></button>');
+  function go(j){i=(j+n)%n;track.style.transform="translateX(-"+(i*100)+"%)";dots.querySelectorAll("button").forEach(function(b,x){b.setAttribute("aria-current",x===i?"true":"false");});}
+  function start(){stop();timer=setInterval(function(){go(i+1);},5000);}
+  function stop(){if(timer)clearInterval(timer);timer=null;}
+  dots.addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;go([].indexOf.call(dots.children,b));start();});
+  $("#next").onclick=function(){go(i+1);start();};$("#prev").onclick=function(){go(i-1);start();};
+  var sl=document.querySelector(".slider");sl.addEventListener("mouseenter",stop);sl.addEventListener("mouseleave",start);
+  var x0=null;sl.addEventListener("touchstart",function(e){x0=e.touches[0].clientX;},{passive:true});
+  sl.addEventListener("touchend",function(e){if(x0==null)return;var dx=e.changedTouches[0].clientX-x0;if(Math.abs(dx)>40){go(i+(dx<0?1:-1));start();}x0=null;});
+  go(0);start();
+})();
 </script>
+
 </body>
 </html>
