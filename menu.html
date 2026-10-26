@@ -2,55 +2,72 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Menu · Scott's Sandwiches</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Scott's November menu: 17 sangas, brekky till 10:30am, sides and drinks. Palm Beach, Gold Coast.">
+<link rel="icon" href="img/logo.png">
+<title>Menu · Scott's Luncheonette &amp; Bar</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700;800&display=swap">
 <link rel="stylesheet" href="styles.css">
-<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}</style>
+<link rel="stylesheet" href="v2.css">
 </head>
 <body data-page="menu">
 <main>
-  <section class="pagehead">
-    <video src="vid/cooking.mp4" poster="img/poster.jpg" autoplay muted loop playsinline aria-hidden="true"></video>
-    <div class="wrap">
-      <span class="kicker" style="color:#fff">November 2026 menu</span>
-      <h1>Breakfast &amp; lunch, made fresh</h1>
-      <p>Every sanga is cooked to order on the flat-top, toasted, wrapped and handed over hot. Here's everything we make.</p>
-      <div class="badges"><span>100% fresh veggies</span><span>Local butchers</span><span>Made fresh daily</span><span>Toasted to order</span></div>
-    </div>
+  <section class="mhero">
+    <img src="img/shoot/s-37.jpg" alt="">
+    <div class="wrap"><span class="eyebrow" style="color:#fff">November 2026</span><h1>The menu</h1><p>Every sanga cooked to order, toasted and wrapped hot. Gluten-free bread +$5. Ciabatta or sourdough +$3.</p>
+    <div style="margin-top:24px"><a class="pill light" href="order.html">Order for pickup</a></div></div>
   </section>
-  <section class="sec">
-    <div class="wrap">
-      <div class="handle"><div><span class="kicker">Our promise</span><h2 style="font-family:var(--head);font-weight:900;font-size:clamp(34px,4.4vw,52px);margin:6px 0 0">Fresh, quality food. Every day.</h2></div>
-      <div style="display:flex;flex-wrap:wrap;gap:10px"><a class="pill" href="order.html">Order online</a><a class="pill ghost" href="menu.pdf" target="_blank" rel="noopener">Open menu PDF</a></div></div>
-      <p style="max-width:44em;color:var(--muted);margin:0 0 28px">Vegetables are cut in-house every morning and our meats come from premium local butchers. If something isn't right, tell us at the counter and we'll make it again.</p>
-      <div class="boards">
-        <figure class="board" style="margin:0"><img src="img/menu-food.jpg" alt="Scott's breakfast and lunch menu: sandwiches, burgers, specials, brekky, sides and add-ons with prices" width="2000" height="1215"></figure>
-        <figure class="board" style="margin:0"><img src="img/menu-drinks.jpg" alt="Scott's drinks menu: cold coffee, cold pressed juice, smoothies and beer with prices" width="2000" height="1215" loading="lazy"></figure>
-      </div>
-      <p style="color:var(--muted);font-size:13px;margin-top:16px">Gluten-free bread +$5. Grande ciabatta or sourdough +$3. Sandwiches until sold out.</p>
-    </div>
-  </section>
-  <section class="sec" aria-labelledby="sd-h">
-    <div class="wrap" style="display:block">
-      <h2 id="sd-h" style="font-family:var(--head);font-weight:800;margin:0 0 6px">Soft drinks</h2>
-      <p style="color:var(--muted);margin:0 0 18px">Ice cold from the fridge.</p>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:10px 32px">
-        <div><b>Jarritos</b> Mandarin · Mango <span style="float:right">$6.50</span></div>
-        <div><b>Bobby</b> Cola · Orange · Passionfruit · Ginger Beer <span style="float:right">$6.50</span></div>
-        <div><b>Frekl Ginger Beer</b> Classic · Double Ginger · Cloudy Apple · Finger Lime <span style="float:right">$6.50</span></div>
-        <div><b>San Pellegrino</b> Sparkling Water 500ml <span style="float:right">$6.50</span></div>
-        <div><b>San Pellegrino cans</b> Aranciata · Limonata · Blood Orange · Pomegranate &amp; Orange <span style="float:right">$5.50</span></div>
-        <div><b>Coca-Cola</b> Classic · Zero Sugar (glass) <span style="float:right">$5.50</span></div>
-        <div><b>Kuro</b> Energy Drink <span style="float:right">$5.50</span></div>
-        <div><b>Beer</b> Byron Bay Lager · Balter XPA (dine in) <span style="float:right">$11</span></div>
-      </div>
-    </div>
-  </section>
+  <nav class="mnav" aria-label="Menu sections"><div class="wrap"><a href="#sangas">Sangas</a><a href="#brekky">Brekky</a><a href="#sides">Sides</a><a href="#drinks">Drinks</a></div></nav>
+  <div class="wrap" style="padding-bottom:90px">
+    <section class="msec" id="sangas"><h2>Sangas</h2><p class="note">Until sold out.</p>
+      <div class="favs">
+        <a class="fav" href="order.html"><div class="ph"><img src="img/menu/philly.jpg" alt="Philly Steak Sanga" loading="lazy"></div><h3>Philly Steak Sanga <span>$20</span></h3><p>Marinated rib fillet, cheese, American cheddar, caramelised onion &amp; capsicum, rocket, mayo. Add eggs &amp; hash brown +$5.</p></a>
+        <a class="fav" href="order.html"><div class="ph"><img src="img/menu/butter-chicken.jpg" alt="Butter Chicken Sanga" loading="lazy"></div><h3>Butter Chicken Sanga <span>$18</span></h3><p>Crispy fried chicken, creamy butter chicken sauce, pickles, lettuce &amp; aioli. Limited time.</p></a>
+        <a class="fav" href="order.html"><div class="ph"><img src="img/menu/deli-stack.jpg" alt="The Deli Stack" loading="lazy"></div><h3>The Deli Stack <span>$18</span></h3><p>Ham, salami, Reuben, cheese, lettuce, tomato, rocket, pickles &amp; aioli. Limited time.</p></a>
+        <a class="fav" href="order.html"><div class="ph"><img src="img/menu/blat.jpg" alt="Southern Fried BLAT" loading="lazy"></div><h3>Southern Fried BLAT <span>$18.50</span></h3><p>Crispy southern fried chicken, bacon, lettuce, avocado, tomato &amp; mayo. Limited time.</p></a>
+        <a class="fav" href="order.html"><div class="ph"><img src="img/menu/brisket.jpg" alt="Smoky BBQ Brisket Sanga" loading="lazy"></div><h3>Smoky BBQ Brisket Sanga <span>$17</span></h3><p>Slow-cooked smoky brisket, crunchy chilli slaw, pickles &amp; BBQ glaze.</p></a>
+        <a class="fav" href="order.html"><div class="ph"><img src="img/menu/reuben.jpg" alt="Scott&#x27;s Reuben" loading="lazy"></div><h3>Scott&#x27;s Reuben <span>$16.50</span></h3><p>House-cured corned beef, cheese, sauerkraut, pickles &amp; Russian dressing.</p></a>
+        <a class="fav" href="order.html"><div class="ph"><img src="img/menu/fish-finger.jpg" alt="Hot Fish Finger" loading="lazy"></div><h3>Hot Fish Finger <span>$16.50</span></h3><p>Crispy fish fingers, cheese, lettuce, tomato, pickles, hot honey &amp; tartare. Limited time.</p></a>
+        <a class="fav" href="order.html"><div class="ph"><img src="img/menu/fish-katsu.jpg" alt="Fish Katsu" loading="lazy"></div><h3>Fish Katsu <span>$15.50</span></h3><p>Golden crumbed fish, sweet &amp; spicy slaw, pickles, aioli &amp; chilli BBQ.</p></a>
+        <a class="fav" href="order.html"><div class="ph"><img src="img/menu/southern-fried.jpg" alt="Southern Fried Chicken Sandwich" loading="lazy"></div><h3>Southern Fried Chicken Sandwich <span>$15.50</span></h3><p>Crispy southern fried chicken, chilli slaw or lettuce, chipotle mayo &amp; house pickles.</p></a>
+        <a class="fav" href="order.html"><div class="ph"><img src="img/menu/pulled-pork.jpg" alt="Spicy Pulled Pork Sanga" loading="lazy"></div><h3>Spicy Pulled Pork Sanga <span>$15</span></h3><p>Slow-cooked pulled pork, chipotle mayo, BBQ sauce, melted cheese, spicy slaw &amp; pickles.</p></a>
+        <a class="fav" href="order.html"><div class="tile">Tuna Steak Melt</div><h3>Tuna Steak Melt <span>$15</span></h3><p>Grilled tuna steak, cheddar, pickles, rocket, chilli &amp; citrus mayo.</p></a>
+        <a class="fav" href="order.html"><div class="tile">&#x27;No Chicken&#x27; Sanga</div><h3>&#x27;No Chicken&#x27; Sanga <span>$15.50</span></h3><p>Vegan. Crispy plant-based fillet, lettuce, tomato, pickles, chilli &amp; vegan mayo. Limited time.</p></a>
+        <a class="fav" href="order.html"><div class="tile">Smash Burger</div><h3>Smash Burger <span>$14.50</span></h3><p>Smashed beef patty, American cheese, pickles, caramelised onion, lettuce &amp; burger sauce. Double $19.50.</p></a>
+        <a class="fav" href="order.html"><div class="ph"><img src="img/menu/chicken.jpg" alt="Chicken Sanga" loading="lazy"></div><h3>Chicken Sanga <span>$14</span></h3><p>Coconut &amp; ginger chilli jam, tomato, mayo, cheddar &amp; rocket. Add bacon +$5.</p></a>
+        <a class="fav" href="order.html"><div class="ph"><img src="img/menu/mushroom.jpg" alt="Mushroom Sanga" loading="lazy"></div><h3>Mushroom Sanga <span>$13.50</span></h3><p>Grilled mushrooms, melted cheese, rocket, chilli &amp; herb mayo. Add bacon +$6.</p></a>
+        <a class="fav" href="order.html"><div class="ph"><img src="img/menu/leg-ham.jpg" alt="Leg Ham Sanga" loading="lazy"></div><h3>Leg Ham Sanga <span>$10.50</span></h3><p>Mozzarella, tomato, house pickles &amp; mayo.</p></a>
+        <a class="fav" href="order.html"><div class="tile">Toasted Salami Melt</div><h3>Toasted Salami Melt <span>$10.50</span></h3><p>Mozzarella, pickles, salami &amp; mayo.</p></a>
+      </div></section>
+    <section class="msec" id="brekky"><h2>Brekky</h2><p class="note">Avo Brekky and Breakfast Burger until 10:30am.</p>
+      <div class="favs">
+        <a class="fav" href="order.html"><div class="tile">Avo Brekky Sanga</div><h3>Avo Brekky Sanga <span>$10</span></h3><p>Till 10:30am. Smashed avo, crispy hash brown, egg &amp; smoky BBQ.</p></a>
+        <a class="fav" href="order.html"><div class="tile">Breakfast Burger</div><h3>Breakfast Burger <span>$11</span></h3><p>Till 10:30am. Egg, bacon, cheese &amp; hash brown in a bun with house sauce.</p></a>
+        <a class="fav" href="order.html"><div class="ph"><img src="img/menu/bacon-brekky.jpg" alt="Bacon Brekky Sanga" loading="lazy"></div><h3>Bacon Brekky Sanga <span>$14</span></h3><p>Scrambled eggs, smoked bacon, hash browns, rocket, cheddar &amp; mayo.</p></a>
+        <a class="fav" href="order.html"><div class="tile">Full Brekky</div><h3>Full Brekky <span>$15</span></h3><p>Fried egg, bacon, beef sausage, cheese, hash brown, aioli &amp; BBQ.</p></a>
+        <a class="fav" href="order.html"><div class="ph"><img src="img/menu/brat.jpg" alt="BRAT" loading="lazy"></div><h3>BRAT <span>$16</span></h3><p>Smoked bacon, avocado, rocket, truss tomatoes &amp; savoury mayo.</p></a>
+      </div></section>
+    <section class="msec" id="sides"><h2>Sides</h2><p class="note">Add any side to any sanga.</p>
+      <div class="favs">
+        <a class="fav" href="order.html"><div class="ph"><img src="img/menu/chips.jpg" alt="Chips" loading="lazy"></div><h3>Chips <span>$5.50</span></h3><p>Crispy chips.</p></a>
+        <a class="fav" href="order.html"><div class="ph"><img src="img/menu/hashbrown.jpg" alt="Hash Brown" loading="lazy"></div><h3>Hash Brown <span>$3</span></h3><p>One crispy hash brown.</p></a>
+      </div></section>
+    <section class="msec" id="drinks"><h2>Drinks</h2><p class="note">Ice cold from the fridge.</p>
+      <div class="dpics"><img src="img/drinks/jarritos-mandarin.jpg" alt="" loading="lazy"><img src="img/drinks/bobby-cola.jpg" alt="" loading="lazy"><img src="img/drinks/frekl-classic.jpg" alt="" loading="lazy"><img src="img/drinks/sp-rossa.jpg" alt="" loading="lazy"><img src="img/drinks/coke.jpg" alt="" loading="lazy"><img src="img/drinks/bobby-passionfruit.jpg" alt="" loading="lazy"><img src="img/drinks/frekl-fingerlime.jpg" alt="" loading="lazy"><img src="img/drinks/sp-limonata.jpg" alt="" loading="lazy"><img src="img/drinks/jarritos-mango.jpg" alt="" loading="lazy"><img src="img/drinks/kuro.jpg" alt="" loading="lazy"><img src="img/drinks/balter.jpg" alt="" loading="lazy"></div>
+      <div class="drinks2">
+        <div><p style="margin:0"><b>Jarritos</b><small>Mandarin · Mango</small></p><span>$6.50</span></div>
+        <div><p style="margin:0"><b>Bobby prebiotic soda</b><small>Cola · Orange · Passionfruit · Ginger Beer</small></p><span>$6.50</span></div>
+        <div><p style="margin:0"><b>Frekl Ginger Beer</b><small>Classic · Double Ginger · Cloudy Apple · Finger Lime</small></p><span>$6.50</span></div>
+        <div><p style="margin:0"><b>San Pellegrino</b><small>Sparkling water 500ml</small></p><span>$6.50</span></div>
+        <div><p style="margin:0"><b>San Pellegrino cans</b><small>Aranciata · Limonata · Blood Orange · Pomegranate &amp; Orange</small></p><span>$5.50</span></div>
+        <div><p style="margin:0"><b>Coca-Cola</b><small>Classic · Zero Sugar, glass bottle</small></p><span>$5.50</span></div>
+        <div><p style="margin:0"><b>Kuro</b><small>Electrolyte water</small></p><span>$5.50</span></div>
+        <div><p style="margin:0"><b>Beer</b><small>Byron Bay Lager · Balter XPA · Corona · Great Northern. Dine in.</small></p><span>$11</span></div>
+      </div></section>
+  </div>
 </main>
 <script src="app.js"></script>
-
 </body>
 </html>
