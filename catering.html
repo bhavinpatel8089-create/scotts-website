@@ -13,7 +13,7 @@
 <body data-page="catering">
 <main>
   <section class="pagehead">
-    <img src="img/philly.jpg" alt="" aria-hidden="true">
+    <img src="img/shoot/s-37.jpg" alt="" aria-hidden="true">
     <div class="wrap">
       <span class="kicker" style="color:#fff">Catering</span>
       <h1>Sanga platters for your crew</h1>
@@ -23,9 +23,9 @@
   <section class="sec">
     <div class="wrap">
       <div class="packs">
-        <div class="pack"><div class="ph"><img src="img/brisket.jpg" alt="" loading="lazy"></div><div class="in"><span class="kicker">Lunch</span><h3>Sanga platter</h3><p>A mix of our best sellers, cut in halves: Philly, brisket, Reuben, chicken and a veggie option. Great for 10 or more.</p></div></div>
-        <div class="pack"><div class="ph"><img src="img/cut.jpg" alt="" loading="lazy"></div><div class="in"><span class="kicker">Morning</span><h3>Brekky box</h3><p>Bacon brekky sangas, BRATs and avo brekky sangas for early starts and morning meetings.</p></div></div>
-        <div class="pack"><div class="ph"><img src="img/veg.jpg" alt="" loading="lazy"></div><div class="in"><span class="kicker">Extras</span><h3>Sides &amp; drinks</h3><p>Chips, sauces, cold-pressed juice, fresh OJ and iced coffee by the batch. Vegan and gluten-free options available.</p></div></div>
+        <div class="pack"><div class="ph"><img src="img/menu/deli-stack.jpg" alt="" loading="lazy"></div><div class="in"><span class="kicker">Lunch</span><h3>Sanga platter</h3><p>A mix of our best sellers, cut in halves: Philly, brisket, Reuben, chicken and a veggie option. Great for 10 or more.</p></div></div>
+        <div class="pack"><div class="ph"><img src="img/menu/bacon-brekky.jpg" alt="" loading="lazy"></div><div class="in"><span class="kicker">Morning</span><h3>Brekky box</h3><p>Bacon brekky sangas, BRATs and avo brekky sangas for early starts and morning meetings.</p></div></div>
+        <div class="pack"><div class="ph"><img src="img/menu/chips.jpg" alt="" loading="lazy"></div><div class="in"><span class="kicker">Extras</span><h3>Sides &amp; drinks</h3><p>Chips, sauces, cold-pressed juice, fresh OJ and iced coffee by the batch. Vegan and gluten-free options available.</p></div></div>
       </div>
       <div class="how" style="margin-top:28px">
         <div><b>1</b>Send us your date, time and number of people.</div>
@@ -60,7 +60,8 @@
 <script src="app.js"></script>
 <script>
 $("#catForm").addEventListener("submit",function(e){e.preventDefault();if(!$("#c1").value.trim()){$("#c1").focus();$("#c1").style.borderColor="var(--red)";return;}
-var m=$("#catMsg");m.hidden=false;m.textContent="Preview. On the live site this goes straight to hello@scottspalmbeach.com.au. For now, email or call us with these details.";});
+var f=this,L=[];f.querySelectorAll("input,select,textarea").forEach(function(x){var l=f.querySelector("label[for=\""+x.id+"\"]");if(x.value.trim())L.push((l?l.textContent:x.name||x.id)+": "+x.value.trim());});location.href="mailto:hello@scottspalmbeach.com.au?subject="+encodeURIComponent("Catering enquiry")+"&body="+encodeURIComponent(L.join("
+"));var m=$("#catMsg");m.hidden=false;m.textContent="Your email app should open with your message ready. Just hit send. No email app? Call us on 0473 460 362.";});
 </script>
 </body>
 </html>

@@ -13,7 +13,7 @@
 <body data-page="contact">
 <main>
   <section class="pagehead">
-    <img src="img/grill.jpg" alt="" aria-hidden="true">
+    <img src="img/shoot/s-2.jpg" alt="" aria-hidden="true">
     <div class="wrap"><span class="kicker" style="color:#fff">Contact us</span><h1>Come say hi</h1><p>Questions, feedback, lost property or a big order. Here's how to reach us.</p></div>
   </section>
   <section class="sec">
@@ -50,7 +50,8 @@
 <script src="app.js"></script>
 <script>
 $("#ctForm").addEventListener("submit",function(e){e.preventDefault();if(!$("#t1").value.trim()){$("#t1").focus();$("#t1").style.borderColor="var(--red)";return;}
-var m=$("#ctMsg");m.hidden=false;m.textContent="Preview. On the live site this goes to hello@scottspalmbeach.com.au. For now, email or call us.";});
+var f=this,L=[];f.querySelectorAll("input,select,textarea").forEach(function(x){var l=f.querySelector("label[for=\""+x.id+"\"]");if(x.value.trim())L.push((l?l.textContent:x.name||x.id)+": "+x.value.trim());});location.href="mailto:hello@scottspalmbeach.com.au?subject="+encodeURIComponent("Website message")+"&body="+encodeURIComponent(L.join("
+"));var m=$("#ctMsg");m.hidden=false;m.textContent="Your email app should open with your message ready. Just hit send. No email app? Call us on 0473 460 362.";});
 </script>
 </body>
 </html>
