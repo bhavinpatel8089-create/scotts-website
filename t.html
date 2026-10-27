@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Order to your table · Scott's</title>
+<link rel="icon" href="img/logo.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Figtree:wght@400;500;600;700;800&display=swap">
+<style>
+:root{--red:#D81E27;--ink:#1B1713;--muted:#6B625A;--line:#ECE6DF;--cream:#F7F3EC;--head:"Bricolage Grotesque",Arial,sans-serif;--ui:"Figtree",Arial,sans-serif}
+*{box-sizing:border-box}[hidden]{display:none!important}
+body{margin:0;font-family:var(--ui);color:var(--ink);background:#fff;padding-bottom:110px}
+header{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+header img{height:34px}
+.tb{background:var(--red);color:#fff;font-weight:800;border-radius:999px;padding:8px 14px;font-size:15px;white-space:nowrap}
+.nav{position:sticky;top:55px;z-index:15;background:#fff;display:flex;gap:8px;overflow-x:auto;padding:10px 16px;border-bottom:1px solid var(--line);scrollbar-width:none}
+.nav a{flex:none;text-decoration:none;color:var(--ink);font-weight:700;font-size:14px;padding:8px 14px;border-radius:999px;background:var(--cream)}
+main{max-width:760px;margin:0 auto;padding:0 16px}
+h2{font-family:var(--head);font-size:28px;margin:28px 0 4px;scroll-margin-top:120px}
+.sub{color:var(--muted);font-size:14px;margin:0 0 10px}
+.item{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--line);cursor:pointer;background:none;border-left:0;border-right:0;border-top:0;width:100%;text-align:left;font:inherit;color:inherit}
+.item img,.item .ph{width:86px;height:86px;border-radius:14px;object-fit:cover;flex:none;background:var(--cream)}
+.item b{display:block;font-size:16px;margin-bottom:3px;text-transform:capitalize}
+.item p{margin:0 0 6px;color:var(--muted);font-size:13.5px;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.item .pr{font-weight:800;color:var(--red)}
+.item.off{opacity:.45;cursor:not-allowed}
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:30;padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:#fff;border-top:1px solid var(--line)}
+.btn{display:flex;width:100%;max-width:728px;margin:0 auto;justify-content:space-between;align-items:center;gap:10px;background:var(--red);color:#fff;border:0;border-radius:14px;padding:16px 18px;font:800 16px var(--ui);cursor:pointer}
+.btn[disabled]{opacity:.5}
+.btn.ghost{background:#fff;color:var(--ink);border:2px solid var(--ink);justify-content:center}
+.sheet{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.45);display:flex;align-items:flex-end;justify-content:center}
+.sheet>div{background:#fff;width:100%;max-width:640px;max-height:92vh;overflow:auto;border-radius:20px 20px 0 0;padding:0 0 16px}
+.sheet .hero{width:100%;height:220px;object-fit:cover;display:block}
+.sheet .in{padding:16px}
+.sheet h3{font-family:var(--head);font-size:26px;margin:0 0 6px;text-transform:capitalize}
+.grp{margin:18px 0 0}.grp h4{margin:0 0 8px;font-size:15px}
+.opt{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px;border:1px solid var(--line);border-radius:12px;margin-bottom:8px;cursor:pointer}
+.opt input{width:20px;height:20px;accent-color:var(--red)}
+.opt span{flex:1}
+.qty{display:flex;align-items:center;gap:14px;margin:18px 0}
+.qty button{width:42px;height:42px;border-radius:50%;border:2px solid var(--ink);background:#fff;font:800 20px var(--ui);cursor:pointer}
+.qty b{font-size:20px;min-width:24px;text-align:center}
+textarea,input[type=text]{width:100%;border:1px solid var(--line);border-radius:12px;padding:12px;font:inherit;font-size:16px}
+.x{position:absolute;margin:12px;width:38px;height:38px;border-radius:50%;border:0;background:#fff;font-size:22px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.cl{list-style:none;padding:0;margin:0}.cl li{display:flex;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}
+.cl small{display:block;color:var(--muted)}.cl button{border:0;background:none;color:var(--red);font-weight:700;cursor:pointer}
+.msg{background:var(--cream);border-radius:14px;padding:14px;margin:16px 0}.err{color:var(--red);font-weight:700}
+.done{text-align:center;padding:60px 16px}.done h1{font-family:var(--head);font-size:40px;margin:0 0 10px}
+</style>
+</head>
+<body>
+<header><a href="index.html"><img src="img/logo.png" alt="Scott's Sandwiches"></a><span class="tb" id="tb">Table</span></header>
+<nav class="nav" id="nav"></nav>
+<main id="main"><p class="msg">Loading the menu…</p></main>
+<div class="bar" id="bar" hidden><button class="btn" type="button" id="viewCart"><span id="cartN">0 items</span><span>View order · <span id="cartT">$0.00</span></span></button></div>
+<div id="sheet"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="rewards.js"></script>
+<script>
+(function(){
+  var FN="https://nkfhqroxkguewtemgpfe.supabase.co/functions/v1/";
+  var q=new URLSearchParams(location.search),table=parseInt(q.get("n"),10);
+  var $=function(s){return document.querySelector(s)},esc=function(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})};
+  var money=function(c){return "$"+(c/100).toFixed(2)};
+  var KEY="tcart"+table,cart=[];try{cart=JSON.parse(sessionStorage.getItem(KEY)||"[]")}catch(e){}
+  function save(){try{sessionStorage.setItem(KEY,JSON.stringify(cart))}catch(e){}}
+  if(!(table>=1&&table<=8)){$("#main").innerHTML='<div class="done"><h1>Scan your table</h1><p>Please scan the QR code on your table to order.</p><p><a href="index.html">Back to Scott\'s</a></p></div>';$("#tb").hidden=true;return;}
+  $("#tb").textContent="Table "+table;
+  if(q.get("paid")){try{sessionStorage.removeItem(KEY)}catch(e){}
+    $("#main").innerHTML='<div class="done"><h1>Thanks! 🙌</h1><p style="font-size:18px">Your order is in. We\'ll bring it to <b>Table '+table+'</b>.</p><p style="color:var(--muted)">Want points on your next order? <a href="account.html">Create a free account</a>.</p><p><a class="btn ghost" style="max-width:320px;margin:24px auto 0" href="t.html?n='+table+'">Order more</a></p></div>';$("#nav").hidden=true;return;}
+
+  var menu=null,user=null,byId={};
+  function nowMin(){var p=new Intl.DateTimeFormat("en-AU",{timeZone:"Australia/Brisbane",hour:"2-digit",minute:"2-digit",hour12:false}).formatToParts(new Date());var g=function(t){return +((p.find(function(x){return x.type===t})||{}).value||0)};return (g("hour")%24)*60+g("minute");}
+  function sectionOpen(s){if(!s.until)return true;var h=s.until.split(":");return nowMin()<=(+h[0])*60+(+h[1]);}
+  var open=nowMin()>=450&&nowMin()<=870;
+
+  function render(){
+    $("#nav").innerHTML=menu.sections.map(function(s,i){return '<a href="#s'+i+'">'+esc(s.name.replace(/ \(.*/,""))+'</a>'}).join("");
+    $("#main").innerHTML=(open?'':'<p class="msg err">Table ordering is open 7:30am – 2:30pm. Please order at the counter.</p>')+
+      (user?'<p class="msg">Signed in as <b>'+esc(user.email)+'</b>, so this order earns points.</p>':'<p class="msg">Have a Scott\'s account? <a href="account.html">Sign in</a> to earn points on this order.</p>')+
+      menu.sections.map(function(s,i){var ok=sectionOpen(s);return '<h2 id="s'+i+'">'+esc(s.name)+'</h2>'+(ok?'':'<p class="sub">Finished for today.</p>')+
+        s.items.map(function(it){byId[it.id]=it;var p=Math.min.apply(null,it.variations.map(function(v){return v.price}));
+          return '<button type="button" class="item'+(ok&&open?'':' off')+'" data-id="'+it.id+'"'+(ok&&open?'':' disabled')+'>'+(it.image?'<img src="'+esc(it.image)+'" alt="" loading="lazy">':'<span class="ph"></span>')+
+          '<span><b>'+esc(it.name.toLowerCase())+'</b><p>'+esc(it.desc)+'</p><span class="pr">'+money(p)+'</span></span></button>'}).join("")}).join("");
+    document.querySelectorAll(".item[data-id]").forEach(function(b){b.onclick=function(){openItem(byId[b.dataset.id])}});
+    bar();
+  }
+  function bar(){var n=cart.reduce(function(a,l){return a+l.qty},0),t=cart.reduce(function(a,l){return a+l.qty*l.unit},0);$("#bar").hidden=!n;$("#cartN").textContent=n+(n===1?" item":" items");$("#cartT").textContent=money(t);}
+  function close(){$("#sheet").innerHTML="";document.body.style.overflow="";}
+  function sheet(html){$("#sheet").innerHTML='<div class="sheet" id="sh"><div>'+html+'</div></div>';document.body.style.overflow="hidden";$("#sh").onclick=function(e){if(e.target.id==="sh")close();};}
+
+  function openItem(it){
+    var v=it.variations[0],qty=1;
+    sheet('<button class="x" type="button" id="x" aria-label="Close">×</button>'+(it.image?'<img class="hero" src="'+esc(it.image)+'" alt="">':'')+'<div class="in"><h3>'+esc(it.name.toLowerCase())+'</h3><p style="color:var(--muted);margin:0">'+esc(it.desc)+'</p>'+
+      (it.variations.length>1?'<div class="grp"><h4>Choose</h4>'+it.variations.map(function(x,i){return '<label class="opt"><span>'+esc(x.name)+'</span><b>'+money(x.price)+'</b><input type="radio" name="var" value="'+x.id+'"'+(i?'':' checked')+'></label>'}).join("")+'</div>':'')+
+      it.mods.map(function(m,mi){return '<div class="grp"><h4>'+esc(m.name)+(m.multi?' <small style="color:var(--muted);font-weight:500">(optional)</small>':'')+'</h4>'+m.options.map(function(o,oi){return '<label class="opt"><span>'+esc(o.name)+'</span><b>'+(o.price?'+'+money(o.price):'')+'</b><input type="'+(m.multi?'checkbox':'radio')+'" name="m'+mi+'" value="'+o.id+'" data-p="'+o.price+'" data-n="'+esc(o.name)+'"'+(!m.multi&&oi===0?' checked':'')+'></label>'}).join("")+'</div>'}).join("")+
+      '<div class="grp"><h4>Anything else?</h4><input type="text" id="inote" maxlength="120" placeholder="e.g. no onion"></div>'+
+      '<div class="qty"><button type="button" id="qm">−</button><b id="qn">1</b><button type="button" id="qp">+</button></div>'+
+      '<button class="btn" type="button" id="add"><span>Add to order</span><span id="ap"></span></button></div>');
+    function unit(){var vv=document.querySelector('input[name=var]:checked');var vid=vv?vv.value:v.id;var base=it.variations.find(function(x){return x.id===vid}).price;
+      var mods=[].slice.call(document.querySelectorAll('#sh .grp input[name^=m]:checked'));return {vid:vid,base:base,mods:mods,u:base+mods.reduce(function(a,x){return a+(+x.dataset.p)},0)};}
+    function upd(){var u=unit();$("#ap").textContent=money(u.u*qty);$("#qn").textContent=qty;}
+    $("#sh").addEventListener("change",upd);$("#qm").onclick=function(){if(qty>1){qty--;upd()}};$("#qp").onclick=function(){if(qty<20){qty++;upd()}};$("#x").onclick=close;
+    $("#add").onclick=function(){var u=unit();var vn=it.variations.length>1?it.variations.find(function(x){return x.id===u.vid}).name:"";
+      cart.push({name:it.name,var:vn,variation_id:u.vid,modifiers:u.mods.map(function(x){return x.value}),modNames:u.mods.filter(function(x){return +x.dataset.p||x.type==="checkbox"||!/^Regular/.test(x.dataset.n)}).map(function(x){return x.dataset.n}),note:$("#inote").value.trim(),qty:qty,unit:u.u});
+      save();close();bar();};
+    upd();
+  }
+
+  function openCart(){
+    var t=cart.reduce(function(a,l){return a+l.qty*l.unit},0);
+    sheet('<button class="x" type="button" id="x" aria-label="Close" style="right:0">×</button><div class="in"><h3>Your order · Table '+table+'</h3><ul class="cl">'+cart.map(function(l,i){return '<li><span><b>'+l.qty+'× '+esc(l.name.toLowerCase())+(l.var?' ('+esc(l.var)+')':'')+'</b>'+(l.modNames.length?'<small>'+esc(l.modNames.join(", "))+'</small>':'')+(l.note?'<small>“'+esc(l.note)+'”</small>':'')+'</span><span style="text-align:right">'+money(l.qty*l.unit)+'<br><button type="button" data-rm="'+i+'">Remove</button></span></li>'}).join("")+'</ul>'+
+      '<p style="display:flex;justify-content:space-between;font-weight:800;font-size:18px"><span>Total</span><span>'+money(t)+'</span></p>'+
+      '<div class="grp"><h4>Your first name <small style="color:var(--muted);font-weight:500">(optional)</small></h4><input type="text" id="cname" maxlength="30" autocomplete="given-name"></div>'+
+      '<p id="cerr" class="err" hidden></p><button class="btn" type="button" id="pay" style="margin-top:16px"><span>Pay '+money(t)+'</span><span>→</span></button>'+
+      '<p class="sub" style="margin-top:10px;text-align:center">Secure payment by Square. We bring it to Table '+table+'.</p></div>');
+    $("#x").onclick=close;
+    document.querySelectorAll("[data-rm]").forEach(function(b){b.onclick=function(){cart.splice(+b.dataset.rm,1);save();bar();if(cart.length)openCart();else close();}});
+    $("#pay").onclick=async function(){var b=this;b.disabled=true;b.firstChild.textContent="Opening secure checkout…";
+      var h={"Content-Type":"application/json"};try{var s=(await SCOTTS_SB.auth.getSession()).data.session;if(s)h.Authorization="Bearer "+s.access_token;}catch(e){}
+      try{var r=await fetch(FN+"table-order",{method:"POST",headers:h,body:JSON.stringify({table:table,name:$("#cname").value,items:cart.map(function(l){return{variation_id:l.variation_id,qty:l.qty,modifiers:l.modifiers,note:l.note}})})});
+        var j=await r.json();if(j.checkout_url){location.href=j.checkout_url;return;}throw new Error(j.error||"Could not start checkout");}
+      catch(e){var m=$("#cerr");m.hidden=false;m.textContent=e.message;b.disabled=false;b.firstChild.textContent="Pay "+money(t);}};
+  }
+  $("#viewCart").onclick=openCart;
+
+  Promise.all([fetch(FN+"table-menu").then(function(r){return r.json()}),SCOTTS_SB.auth.getSession().then(function(r){return r.data.session}).catch(function(){return null})])
+    .then(async function(a){menu=a[0];user=a[1]&&a[1].user;if(user){try{var p=(await SCOTTS_SB.from("profiles").select("is_staff").eq("id",user.id).single()).data;if(p&&p.is_staff)open=true;}catch(e){}}if(!menu.sections||!menu.sections.length)throw 0;render();})
+    .catch(function(){$("#main").innerHTML='<p class="msg err">Sorry, the menu didn\'t load. Please refresh, or order at the counter.</p>';});
+})();
+</script>
+</body>
+</html>
