@@ -19,6 +19,7 @@
 </div>
 
 <main>
+  <a id="dealBanner" href="account.html" hidden style="display:block;background:#1B1713;color:#fff;text-align:center;padding:12px 16px;font-weight:700;text-decoration:none"></a>
   <section class="slider" aria-roledescription="carousel" aria-label="Offers and new arrivals">
     <div class="slides" id="slides">
       <div class="slide" role="group" aria-roledescription="slide" aria-label="1 of 4">
@@ -146,5 +147,8 @@
 })();
 </script>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="rewards.js"></script>
+<script>scottsDeal().then(function(d){if(!d)return;var b=document.getElementById("dealBanner");b.textContent="$3 Sanga of the Week: "+d.item_name+" · Members only, one each · Claim now →";b.hidden=false;});</script>
 </body>
 </html>

@@ -27,13 +27,16 @@
   if(!me||!me.is_staff){app.innerHTML='<p>This account is not a staff account.</p>';return;}
   var deal=await window.scottsDeal();
   app.innerHTML='<div class="grid">'+
-   '<div class="card2"><h3>$3 Sanga of the Week</h3><p>This week: <b>'+(deal?esc(deal.item_name):"not set")+'</b></p><form class="form" id="fd"><label for="d1">Sanga</label><select id="d1">'+MENU.map(function(m){return '<option value="'+m[1]+'">'+esc(m[0])+'</option>';}).join("")+'</select><label for="d2">Week starting (Monday)</label><input id="d2" type="date"><button class="pill">Set deal</button><p class="out" id="od"></p></form></div>'+
+   '<div class="card2"><h3>$3 Sanga of the Week</h3><p>This week: <b>'+(deal?esc(deal.item_name):"not set")+'</b></p><form class="form" id="fd"><label for="d1">Sanga</label><select id="d1">'+MENU.map(function(m){return '<option value="'+m[1]+'">'+esc(m[0])+'</option>';}).join("")+'<option value="custom">Custom sanga (not on menu)…</option></select><div id="cw" hidden><label for="d3">Sanga name</label><input id="d3" placeholder="e.g. Chilli Crab Melt"><label for="d4">What\'s in it</label><input id="d4" placeholder="Crab, mozzarella, jalapeño mayo"></div><label for="d2">Week starting (Monday)</label><input id="d2" type="date"><button class="pill">Set deal</button><p class="out" id="od"></p></form></div>'+
    '<div class="card2"><h3>Add counter points</h3><form class="form" id="fp"><label for="p1">Customer mobile or email</label><input id="p1" required><label for="p2">Amount spent ($)</label><input id="p2" type="number" step="0.01" min="0" required><button class="pill">Add points</button><p class="out" id="op"></p></form></div>'+
    '<div class="card2"><h3>Use a voucher</h3><form class="form" id="fv"><label for="v1">Voucher code</label><input id="v1" placeholder="SC-XXXXXX" required><button class="pill">Mark as used</button><p class="out" id="ov"></p></form></div>'+
    '</div><div class="card2" style="margin-top:20px"><h3>This week\'s $3 claims</h3><div id="claims">Loading…</div></div>';
   function out(id,t,bad){var o=$(id);o.textContent=t;o.classList.toggle("err",!!bad);}
-  $("#fd").onsubmit=async function(e){e.preventDefault();var k=$("#d1").value,n=MENU.find(function(m){return m[1]===k;})[0];
-    var r=await sb.rpc("staff_set_deal",{item:n,descr:"",img:"img/menu/"+k+".jpg",week:$("#d2").value||null});out("#od",r.error?r.error.message:"Set: "+n+" for week of "+r.data.week_start,!!r.error);};
+  $("#d1").onchange=function(){$("#cw").hidden=this.value!=="custom";};
+  $("#fd").onsubmit=async function(e){e.preventDefault();var k=$("#d1").value,n,img,ds="";
+    if(k==="custom"){n=$("#d3").value.trim();ds=$("#d4").value.trim();img="img/shoot/s-36.jpg";if(!n){out("#od","Type the sanga name",1);return;}}
+    else{n=MENU.find(function(m){return m[1]===k;})[0];img="img/menu/"+k+".jpg";}
+    var r=await sb.rpc("staff_set_deal",{item:n,descr:ds,img:img,week:$("#d2").value||null});out("#od",r.error?r.error.message:"Set: "+n+" for week of "+r.data.week_start,!!r.error);};
   $("#fp").onsubmit=async function(e){e.preventDefault();var r=await sb.rpc("staff_add_points",{customer:$("#p1").value,amount_dollars:+$("#p2").value,note:"Counter order"});
     out("#op",r.error?r.error.message:"Done. "+r.data.first_name+" now has "+r.data.points+" pts",!!r.error);if(!r.error)this.reset();};
   $("#fv").onsubmit=async function(e){e.preventDefault();var r=await sb.rpc("staff_use_voucher",{voucher_code:$("#v1").value});out("#ov",r.error?r.error.message:"Used: "+r.data.reward+" ("+r.data.code+")",!!r.error);if(!r.error)this.reset();};
