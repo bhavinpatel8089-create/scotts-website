@@ -8,53 +8,122 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700;800&display=swap">
 <link rel="stylesheet" href="styles.css">
-<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}</style>
+<style>
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}
+.deal{display:grid;grid-template-columns:140px 1fr;gap:18px;align-items:center;background:#fff;border:2px solid var(--red);border-radius:18px;padding:16px;margin-bottom:22px}
+.deal img{width:140px;height:140px;object-fit:cover;border-radius:12px}
+.deal h3{margin:4px 0 6px;font-size:24px}.deal p{margin:0 0 12px;color:var(--muted);font-size:14px}
+@media(max-width:560px){.deal{grid-template-columns:1fr}.deal img{width:100%;height:200px}}
+.olist{list-style:none;padding:0;margin:8px 0 0}.olist li{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}
+.olist small{color:var(--muted);display:block}.olist b{white-space:nowrap}
+.vch{border:2px dashed var(--red);border-radius:12px;padding:12px;margin-top:10px;text-align:center}.vch b{font-size:22px;letter-spacing:.06em}
+.pw{position:relative}
+.err{color:var(--red)}
+</style>
 </head>
 <body data-page="account">
 <main>
   <section class="pagehead">
     <img src="img/h2_butter.jpg" alt="" aria-hidden="true">
-    <div class="wrap"><span class="kicker" style="color:#fff">Scott's Rewards</span><h1>Eat sangas. Earn sangas.</h1><p>Create an account, earn 1 point for every $1 you spend, and swap points for a free sanga or drink.</p></div>
+    <div class="wrap"><span class="kicker" style="color:#fff">Scott's Rewards</span><h1>Eat sangas. Earn sangas.</h1><p>Create a free account, earn 1 point for every $1 you spend online, get 100 points for a free sanga, and grab the $3 Sanga of the Week.</p></div>
   </section>
   <section class="sec">
     <div class="wrap">
       <div class="how" style="margin-bottom:28px">
-        <div><b>1 pt</b>for every $1 you spend, in store or online.</div>
-        <div><b>50 pts</b>gets you a free drink: iced coffee, juice or soft drink.</div>
+        <div><b>+20 pts</b>just for signing up.</div>
+        <div><b>1 pt</b>for every $1 you spend when you order online with your account email.</div>
         <div><b>100 pts</b>gets you a free sanga of your choice.</div>
       </div>
-      <div class="acct" id="acct"></div>
-      <p class="note" style="margin-top:22px">Preview. Your account here is saved in this browser only. On the live site, points come from Square Loyalty and follow your mobile number in store and online.</p>
+      <div id="dealBox"></div>
+      <div class="acct" id="acct"><p class="note">Loading…</p></div>
     </div>
   </section>
 </main>
 <script src="app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="rewards.js"></script>
 <script>
 (function(){
-  function render(){
-    var a=store.get("account",null),box=$("#acct");
-    if(!a){
-      box.innerHTML='<div class="card2"><div class="tabs" role="tablist"><button type="button" role="tab" aria-selected="true" data-t="new">Create account</button><button type="button" role="tab" aria-selected="false" data-t="in">Sign in</button></div>'+
-        '<form class="form" id="af" novalidate><div id="nameRow"><label for="a1">First name</label><input id="a1" type="text" autocomplete="given-name"></div>'+
-        '<label for="a2">Email</label><input id="a2" type="text" inputmode="email" autocomplete="email">'+
-        '<label for="a3">Mobile</label><input id="a3" type="tel" autocomplete="tel">'+
-        '<label style="display:flex;gap:8px;align-items:center;text-transform:none;letter-spacing:0;font-family:var(--mono);font-weight:400;font-size:13px"><input type="checkbox" id="a4" checked style="width:auto"> Send me Scott\'s Family deals</label>'+
-        '<button class="pill" type="submit" id="aGo">Create account</button><p id="aMsg" class="note" hidden></p></form></div>'+
-        '<div class="points"><span class="kicker" style="color:#fff">Welcome bonus</span><div class="big">+20 pts</div><p style="margin:0">Join today and get 20 points to start. That\'s 1/5 of the way to a free sanga.</p></div>';
-      var mode="new";
-      box.querySelector(".tabs").onclick=function(e){var b=e.target.closest("[data-t]");if(!b)return;mode=b.dataset.t;box.querySelectorAll(".tabs button").forEach(function(x){x.setAttribute("aria-selected",x===b);});$("#nameRow").hidden=mode!=="new";$("#aGo").textContent=mode==="new"?"Create account":"Sign in";};
-      $("#af").addEventListener("submit",function(e){e.preventDefault();var em=$("#a2").value.trim();if(!/^\S+@\S+\.\S+$/.test(em)){$("#a2").focus();$("#a2").style.borderColor="var(--red)";return;}
-        if(mode==="in"){var m=$("#aMsg");m.hidden=false;m.textContent="No account found for that email in this browser. Create one instead.";return;}
-        store.set("account",{name:$("#a1").value.trim()||"friend",email:em,points:20,redeemed:[]});render();});
-      return;
-    }
-    var p=a.points||0,next=p<50?50:p<100?100:100,pct=Math.min(100,Math.round(p/next*100));
-    box.innerHTML='<div class="points"><span class="kicker" style="color:#fff">Hi '+esc(a.name)+'</span><div class="big">'+p+' pts</div><div class="bar"><i style="width:'+pct+'%"></i></div><p style="margin:0">'+(p>=100?"You've got a free sanga waiting.":(next-p)+" points to your next reward.")+'</p>'+
-      '<div class="rewards-list"><div class="rw"><span>Free drink · 50 pts</span><button type="button" data-r="50"'+(p<50?" disabled":"")+'>Claim</button></div><div class="rw"><span>Free sanga · 100 pts</span><button type="button" data-r="100"'+(p<100?" disabled":"")+'>Claim</button></div></div></div>'+
-      '<div class="card2"><h3>Your details</h3><p style="margin:0 0 6px">'+esc(a.email)+'</p><p style="color:var(--muted);font-size:14px">Order online while signed in and your points add up automatically.</p><div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:12px"><a class="pill" href="order.html">Order &amp; earn</a><button class="pill ghost" type="button" id="out">Sign out</button></div><div id="claimed"></div></div>';
-    box.querySelectorAll("[data-r]").forEach(function(b){b.onclick=function(){var c=+b.dataset.r;a.points-=c;store.set("account",a);render();$("#claimed").innerHTML='<div class="docket" style="margin-top:16px"><div class="c"><b>REWARD CODE</b></div><hr><div class="c" style="font-size:22px"><b>SCOTT-'+(c===100?"SANGA":"DRINK")+'-'+Math.floor(1000+Math.random()*9000)+'</b></div><hr><div class="c">Show this at the counter</div></div>';};});
-    $("#out").onclick=function(){store.set("account",null);render();};
+  var sb=window.SCOTTS_SB,box=$("#acct"),me=null;
+  function money(c){return "$"+(c/100).toFixed(2);}
+  function when(t){return new Date(t).toLocaleDateString("en-AU",{day:"numeric",month:"short",year:"numeric"});}
+
+  async function loadDeal(user){
+    var d=await window.scottsDeal();var el=$("#dealBox");
+    if(!d){el.innerHTML="";return;}
+    var claimed=false;
+    if(user){var c=await sb.from("deal_claims").select("status").eq("deal_id",d.id).eq("user_id",user.id).maybeSingle();claimed=c.data&&c.data.status==="paid";}
+    el.innerHTML='<div class="deal">'+(d.image?'<img src="'+esc(d.image)+'" alt="">':'')+'<div><span class="kicker">$3 Sanga of the Week</span><h3>'+esc(d.item_name)+' · $3</h3><p>'+esc(d.description||"")+' One per account, this week only. Pay online, pick up hot at the counter.</p>'+
+      (claimed?'<p><b>You\'ve claimed this week\'s deal. New one next Monday!</b></p>':'<button class="pill" type="button" id="claimBtn">'+(user?"Claim for $3":"Sign in to claim")+'</button>')+'<p id="dealMsg" class="err" hidden></p></div></div>';
+    var b=$("#claimBtn");if(!b)return;
+    b.onclick=async function(){
+      if(!user){$("#a2")&&$("#a2").focus();window.scrollTo({top:box.offsetTop-90,behavior:"smooth"});return;}
+      b.disabled=true;b.textContent="Starting checkout…";
+      var r=await sb.functions.invoke("claim-deal",{body:{}});
+      var j=r.data||{};if(r.error&&r.error.context){try{j=await r.error.context.json();}catch(e){}}
+      if(j.checkout_url){location.href=j.checkout_url;return;}
+      var m=$("#dealMsg");m.hidden=false;m.textContent=j.error||"Could not start checkout. Try again.";b.disabled=false;b.textContent="Claim for $3";
+    };
   }
+
+  function authForm(mode){
+    box.innerHTML='<div class="card2"><div class="tabs" role="tablist"><button type="button" role="tab" aria-selected="'+(mode==="new")+'" data-t="new">Create account</button><button type="button" role="tab" aria-selected="'+(mode==="in")+'" data-t="in">Sign in</button></div>'+
+      '<form class="form" id="af" novalidate>'+
+      (mode==="new"?'<label for="a1">First name</label><input id="a1" type="text" autocomplete="given-name" required>':'')+
+      '<label for="a2">Email</label><input id="a2" type="email" inputmode="email" autocomplete="email" required>'+
+      (mode==="new"?'<label for="a3">Mobile</label><input id="a3" type="tel" autocomplete="tel">':'')+
+      '<label for="a5">Password</label><input id="a5" type="password" autocomplete="'+(mode==="new"?"new-password":"current-password")+'" minlength="6" required>'+
+      (mode==="new"?'<label style="display:flex;gap:8px;align-items:center;text-transform:none;letter-spacing:0;font-weight:400;font-size:13px"><input type="checkbox" id="a4" checked style="width:auto"> Send me Scott\'s Family deals</label>':'')+
+      '<button class="pill" type="submit" id="aGo">'+(mode==="new"?"Create account":"Sign in")+'</button>'+
+      (mode==="in"?' <button class="pill ghost" type="button" id="forgot">Forgot password</button>':'')+
+      '<p id="aMsg" class="note" hidden></p></form></div>'+
+      '<div class="points"><span class="kicker" style="color:#fff">Welcome bonus</span><div class="big">+20 pts</div><p style="margin:0">Join today and start with 20 points. Your account works on any phone, any time.</p></div>';
+    box.querySelector(".tabs").onclick=function(e){var b=e.target.closest("[data-t]");if(b)authForm(b.dataset.t);};
+    var msg=function(t,bad){var m=$("#aMsg");m.hidden=false;m.textContent=t;m.classList.toggle("err",!!bad);};
+    var f=$("#forgot");if(f)f.onclick=async function(){var em=$("#a2").value.trim();if(!em){msg("Type your email first.",1);return;}
+      var r=await sb.auth.resetPasswordForEmail(em,{redirectTo:"https://foodiemate.com.au/account.html"});msg(r.error?r.error.message:"Check your email for a reset link.",!!r.error);};
+    $("#af").addEventListener("submit",async function(e){e.preventDefault();
+      var em=$("#a2").value.trim(),pw=$("#a5").value;
+      if(!/^\S+@\S+\.\S+$/.test(em)){msg("Enter a valid email.",1);return;}
+      if(pw.length<6){msg("Password needs at least 6 characters.",1);return;}
+      $("#aGo").disabled=true;
+      var r;
+      if(mode==="new"){var nm=$("#a1").value.trim();if(!nm){msg("Enter your first name.",1);$("#aGo").disabled=false;return;}
+        r=await sb.auth.signUp({email:em,password:pw,options:{data:{first_name:nm,mobile:$("#a3").value.trim(),marketing:$("#a4").checked},emailRedirectTo:"https://foodiemate.com.au/account.html"}});
+        if(!r.error&&!r.data.session){msg("Nearly there! Check your email and tap the link to confirm your account.");$("#aGo").disabled=false;return;}
+      }else r=await sb.auth.signInWithPassword({email:em,password:pw});
+      $("#aGo").disabled=false;
+      if(r.error){msg(r.error.message==="Invalid login credentials"?"Wrong email or password.":r.error.message,1);return;}
+      render();
+    });
+  }
+
+  async function dash(user){
+    var p=(await sb.from("profiles").select("*").eq("id",user.id).single()).data||{points:0,first_name:"",email:user.email};
+    var orders=(await sb.from("orders").select("*").eq("user_id",user.id).order("created_at",{ascending:false}).limit(30)).data||[];
+    var vch=(await sb.from("vouchers").select("*").eq("user_id",user.id).eq("status","active").order("created_at",{ascending:false})).data||[];
+    var pts=p.points||0,pct=Math.min(100,pts%100===0&&pts>0?100:pts%100);
+    box.innerHTML='<div class="points"><span class="kicker" style="color:#fff">Hi '+esc(p.first_name||"there")+'</span><div class="big">'+pts+' pts</div><div class="bar"><i style="width:'+(pts>=100?100:pts)+'%"></i></div>'+
+      '<p style="margin:0">'+(pts>=100?"You've got a free sanga waiting!":(100-pts)+" points to your next free sanga.")+'</p>'+
+      '<div class="rewards-list"><div class="rw"><span>Free sanga · 100 pts</span><button type="button" id="redeem"'+(pts<100?" disabled":"")+'>Claim</button></div></div>'+
+      '<div id="vchs">'+vch.map(function(v){return '<div class="vch">'+esc(v.reward)+'<br><b>'+esc(v.code)+'</b><br><small>Show this code at the counter</small></div>';}).join("")+'</div></div>'+
+      '<div class="card2"><h3>Your orders</h3>'+(orders.length?'<ul class="olist">'+orders.map(function(o){return '<li><span>'+esc(o.summary||"Order")+'<small>'+when(o.created_at)+(o.total_cents?" · "+money(o.total_cents):"")+'</small></span><b>+'+o.points_earned+' pts</b></li>';}).join("")+'</ul>':'<p class="note">No orders yet.</p>')+
+      '<p style="color:var(--muted);font-size:14px;margin-top:14px">Order online with <b>'+esc(p.email)+'</b> and points add up automatically after you pay.</p>'+
+      '<div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:12px"><a class="pill" href="order.html">Order &amp; earn</a><button class="pill ghost" type="button" id="out">Sign out</button></div>'+
+      (p.is_staff?'<p style="margin-top:14px"><a href="staff.html">Staff tools →</a></p>':'')+'</div>';
+    $("#out").onclick=async function(){await sb.auth.signOut();render();};
+    var rd=$("#redeem");rd.onclick=async function(){rd.disabled=true;var r=await sb.rpc("redeem_free_sanga");if(r.error){alertMsg(r.error.message);rd.disabled=false;return;}dash(user);};
+    function alertMsg(t){$("#vchs").insertAdjacentHTML("afterbegin",'<p class="err">'+esc(t)+'</p>');}
+  }
+
+  async function render(){
+    var s=(await sb.auth.getSession()).data.session;me=s&&s.user;
+    loadDeal(me);
+    if(!me){authForm("new");return;}
+    dash(me);
+    if(/deal=paid/.test(location.search)){box.insertAdjacentHTML("beforebegin",'<p class="note" style="margin-bottom:16px"><b>Thanks! Your $3 sanga is ordered.</b> We\'ll have it hot at the counter. Points show up here within a minute.</p>');history.replaceState(null,"","account.html");}
+  }
+  sb.auth.onAuthStateChange(function(ev){if(ev==="PASSWORD_RECOVERY"){var np=prompt("Choose a new password (6+ characters)");if(np)sb.auth.updateUser({password:np}).then(render);}});
   render();
 })();
 </script>

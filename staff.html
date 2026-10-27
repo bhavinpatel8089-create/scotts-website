@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Staff · Scott's Rewards</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Figtree:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="styles.css">
+<style>body{margin:0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:20px}.out{margin-top:10px;font-weight:700}.err{color:var(--red)}table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:8px 6px;border-bottom:1px solid var(--line);text-align:left}</style>
+</head>
+<body data-page="staff">
+<main><section class="sec"><div class="wrap" style="display:block">
+<h1 style="font-family:var(--head);font-size:44px;margin:0 0 18px">Staff tools</h1>
+<div id="app"><p>Loading…</p></div>
+</div></section></main>
+<script src="app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="rewards.js"></script>
+<script>
+(async function(){
+  var sb=window.SCOTTS_SB,app=$("#app");
+  var MENU=[["Philly Steak Sanga","philly"],["Butter Chicken Sanga","butter-chicken"],["The Deli Stack","deli-stack"],["Southern Fried BLAT","blat"],["Smoky BBQ Brisket Sanga","brisket"],["Scott's Reuben","reuben"],["Hot Fish Finger","fish-finger"],["Fish Katsu","fish-katsu"],["Southern Fried Chicken Sandwich","southern-fried"],["Spicy Pulled Pork Sanga","pulled-pork"],["Tuna Steak Melt","tuna"],["Chicken Sanga","chicken"],["Mushroom Sanga","mushroom"],["Leg Ham Sanga","leg-ham"],["Bacon Brekky Sanga","bacon-brekky"],["BRAT","brat"]];
+  var s=(await sb.auth.getSession()).data.session;
+  if(!s){app.innerHTML='<p>Sign in on <a href="account.html">Your Account</a> with a staff account first.</p>';return;}
+  var me=(await sb.from("profiles").select("*").eq("id",s.user.id).single()).data;
+  if(!me||!me.is_staff){app.innerHTML='<p>This account is not a staff account.</p>';return;}
+  var deal=await window.scottsDeal();
+  app.innerHTML='<div class="grid">'+
+   '<div class="card2"><h3>$3 Sanga of the Week</h3><p>This week: <b>'+(deal?esc(deal.item_name):"not set")+'</b></p><form class="form" id="fd"><label for="d1">Sanga</label><select id="d1">'+MENU.map(function(m){return '<option value="'+m[1]+'">'+esc(m[0])+'</option>';}).join("")+'</select><label for="d2">Week starting (Monday)</label><input id="d2" type="date"><button class="pill">Set deal</button><p class="out" id="od"></p></form></div>'+
+   '<div class="card2"><h3>Add counter points</h3><form class="form" id="fp"><label for="p1">Customer mobile or email</label><input id="p1" required><label for="p2">Amount spent ($)</label><input id="p2" type="number" step="0.01" min="0" required><button class="pill">Add points</button><p class="out" id="op"></p></form></div>'+
+   '<div class="card2"><h3>Use a voucher</h3><form class="form" id="fv"><label for="v1">Voucher code</label><input id="v1" placeholder="SC-XXXXXX" required><button class="pill">Mark as used</button><p class="out" id="ov"></p></form></div>'+
+   '</div><div class="card2" style="margin-top:20px"><h3>This week\'s $3 claims</h3><div id="claims">Loading…</div></div>';
+  function out(id,t,bad){var o=$(id);o.textContent=t;o.classList.toggle("err",!!bad);}
+  $("#fd").onsubmit=async function(e){e.preventDefault();var k=$("#d1").value,n=MENU.find(function(m){return m[1]===k;})[0];
+    var r=await sb.rpc("staff_set_deal",{item:n,descr:"",img:"img/menu/"+k+".jpg",week:$("#d2").value||null});out("#od",r.error?r.error.message:"Set: "+n+" for week of "+r.data.week_start,!!r.error);};
+  $("#fp").onsubmit=async function(e){e.preventDefault();var r=await sb.rpc("staff_add_points",{customer:$("#p1").value,amount_dollars:+$("#p2").value,note:"Counter order"});
+    out("#op",r.error?r.error.message:"Done. "+r.data.first_name+" now has "+r.data.points+" pts",!!r.error);if(!r.error)this.reset();};
+  $("#fv").onsubmit=async function(e){e.preventDefault();var r=await sb.rpc("staff_use_voucher",{voucher_code:$("#v1").value});out("#ov",r.error?r.error.message:"Used: "+r.data.reward+" ("+r.data.code+")",!!r.error);if(!r.error)this.reset();};
+  if(deal){var c=(await sb.from("deal_claims").select("status,created_at,profiles(first_name,email)").eq("deal_id",deal.id).order("created_at",{ascending:false})).data||[];
+    $("#claims").innerHTML=c.length?'<table><tr><th>Name</th><th>Email</th><th>Status</th></tr>'+c.map(function(x){return '<tr><td>'+esc(x.profiles&&x.profiles.first_name||"")+'</td><td>'+esc(x.profiles&&x.profiles.email||"")+'</td><td>'+esc(x.status)+'</td></tr>';}).join("")+'</table>':'No claims yet.';}
+  else $("#claims").textContent="Set a deal first.";
+})();
+</script>
+</body>
+</html>
