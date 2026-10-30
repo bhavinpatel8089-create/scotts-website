@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your Sanga Fortune · Scott's</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="img/logo.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,900&family=Figtree:wght@500;700&display=swap">
+<style>
+:root{--r:#D71E28;--c:#FFF1DC;--k:#1B1713}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:var(--r);color:var(--c);font-family:Figtree,sans-serif;display:flex;align-items:center;justify-content:center;padding:24px 16px;text-align:center}
+.box{max-width:440px;width:100%}
+img.logo{width:200px;filter:brightness(0) invert(94%) sepia(10%) saturate(400%);margin-bottom:28px}
+h1{font-family:Fraunces,serif;font-weight:900;font-size:44px;line-height:1;margin:0 0 14px}
+p{font-size:17px;line-height:1.5;margin:0 0 26px;opacity:.95}
+.btns{display:grid;gap:12px}
+button,a.btn{font:700 18px Figtree,sans-serif;border:0;border-radius:999px;padding:17px 22px;cursor:pointer;background:var(--c);color:var(--r);text-decoration:none;display:block}
+button.ghost,a.ghost{background:transparent;color:var(--c);border:2px solid var(--c)}
+.card{background:var(--c);color:var(--k);border-radius:24px;padding:30px 24px;margin-bottom:22px;animation:pop .5s ease}
+.card .k{font:700 12px Figtree;letter-spacing:.25em;color:var(--r);text-transform:uppercase}
+.card h2{font-family:Fraunces,serif;font-weight:900;font-size:30px;line-height:1.08;color:var(--r);margin:12px 0 14px}
+.card .s{font-size:15px;color:#5b524a;margin:0}
+.card .s b{color:var(--k)}
+.cookie{font-size:64px;display:block;margin-bottom:6px;animation:shake 1s ease infinite}
+@keyframes pop{from{transform:scale(.9);opacity:0}to{transform:none;opacity:1}}
+@keyframes shake{0%,100%{transform:rotate(0)}25%{transform:rotate(-8deg)}75%{transform:rotate(8deg)}}
+[hidden]{display:none!important}
+small{display:block;margin-top:22px;opacity:.7;font-size:12px}
+</style>
+</head>
+<body>
+<div class="box">
+  <img class="logo" src="img/logo.png" alt="Scott's">
+
+  <div id="s1">
+    <h1>Your sanga fortune awaits.</h1>
+    <p>The universe has a message for you today. First, tell us who's asking.</p>
+    <div class="btns">
+      <button data-g="he">I'm a guy</button>
+      <button data-g="she">I'm a girl</button>
+      <button class="ghost" data-g="any">Just tell me</button>
+    </div>
+  </div>
+
+  <div id="s2" hidden>
+    <span class="cookie">🥪</span>
+    <h1>Reading the crumbs…</h1>
+    <p>Hold tight.</p>
+  </div>
+
+  <div id="s3" hidden>
+    <div class="card">
+      <span class="k">Today's fortune</span>
+      <h2 id="msg"></h2>
+      <p class="s">Your lucky sanga: <b id="sanga"></b></p>
+    </div>
+    <div class="btns">
+      <a class="btn" href="account.html">Claim 20 free points →</a>
+      <button class="ghost" id="again">Another fortune</button>
+    </div>
+    <small>Just for fun. Screenshot it and tag @scotts_luncheonette_bar</small>
+  </div>
+</div>
+<script>
+var F={
+ he:["Someone special is going to notice you this week. Wear the good shirt.","You're more handsome than you think. Seriously.","A good surprise is coming your way before Sunday.","Someone is smiling right now because of something you said.","Big things are coming. Eat well, you'll need the energy."],
+ she:["You're looking beautiful today, and someone has definitely noticed.","Someone special is about to walk into your life. Keep your eyes up.","Your glow is unreal today. Don't waste it.","A message you've been waiting for is on its way.","Good things are heading your way. You deserve every one."],
+ any:["Today is your lucky day. Act like it.","You will meet someone special very soon.","Someone is thinking about you right now.","A good surprise is coming before the weekend.","You're doing better than you think. Keep going."]};
+var S=["Philly Steak Sanga","Butter Chicken Sanga","The Deli Stack","Smoky BBQ Brisket","Scott's Reuben","Southern Fried BLAT","Hot Fish Finger","Bacon Brekky Sanga"];
+var g="any";function pick(a){return a[Math.floor(Math.random()*a.length)];}
+function $(i){return document.getElementById(i);}
+function show(){ $("s1").hidden=true;$("s3").hidden=true;$("s2").hidden=false;
+ setTimeout(function(){$("msg").textContent=pick(F[g]);$("sanga").textContent=pick(S);$("s2").hidden=true;$("s3").hidden=false;},1400);}
+document.querySelectorAll("[data-g]").forEach(function(b){b.onclick=function(){g=b.dataset.g;show();};});
+$("again").onclick=show;
+</script>
+</body>
+</html>
