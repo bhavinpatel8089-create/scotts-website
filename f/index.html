@@ -64,24 +64,14 @@ small{display:block;margin-top:22px;opacity:.7;font-size:12px}
   </div>
 </div>
 <script>
-var A={
-he:["Someone has been wanting to talk to you. This week, they finally will.","The thing you've been working hard on is about to pay off in a big way.","You're about to walk into a room and change someone's whole day.","A person from your past is going to remember you fondly today.","Your next big chance is closer than you think. Say yes when it comes.","Someone sees the real you, and they think you're the best kind of person.","Good luck has your name on it this month. Spend it wisely.","You're going to laugh so hard this week your face hurts.","Somebody special is going to look at you and smile without knowing why.","The plan you're nervous about is going to work out better than you hoped."],
-she:["You're glowing today, and someone special has definitely noticed.","Someone is going to tell you you're beautiful this week, and they'll mean it.","The person you've been thinking about is thinking about you too.","A beautiful surprise is on its way, and it's worth the wait.","You're about to meet someone who makes life feel lighter.","Your kindness has been noticed, and it's coming back to you double.","Something you've wished for quietly is getting closer every day.","This is your season. Everything is starting to line up for you.","Someone looks at you and thinks, wow. Today you'll feel it too.","A happy message is coming that will make you smile at your phone."],
-any:["Today is the start of a really lucky week for you.","Someone special is about to walk into your life.","The thing you've been worrying about is going to turn out just fine.","You're about to get news that makes you want to celebrate.","Someone is grateful you're in their life, more than they've said.","A small moment today is going to turn into a great memory.","You're doing better than you think, and good things are coming because of it.","Something you've waited a long time for is finally close.","You'll make someone really happy this week just by being you.","Life's about to surprise you, in the best way."]};
-var S=["Philly Steak Sanga","Butter Chicken Sanga","The Deli Stack","Smoky BBQ Brisket","Scott's Reuben","Southern Fried BLAT","Hot Fish Finger","Bacon Brekky Sanga"];
-var g="any";
-function seen(){try{return JSON.parse(localStorage.getItem("fseen")||"[]")}catch(e){return []}}
-function next(){var a=A[g],s=seen(),tries=0,k,i,j;do{i=Math.floor(Math.random()*a.length);j=Math.floor(Math.random()*B.length);k=g+i+"_"+j;tries++;}while(s.indexOf(k)>-1&&tries<400);
- s.push(k);if(s.length>300)s=s.slice(-300);try{localStorage.setItem("fseen",JSON.stringify(s))}catch(e){}return a[i]+" "+B[j];}function pick(a){return a[Math.floor(Math.random()*a.length)];}
+var U="https://nkfhqroxkguewtemgpfe.supabase.co/functions/v1/fortune",K="sb_publishable_MYpP1tZi5iS2Y8d3y4sgxw__IhOv5Ip";
+var fp=[screen.width,screen.height,devicePixelRatio,Intl.DateTimeFormat().resolvedOptions().timeZone,navigator.language].join("|");
 function $(i){return document.getElementById(i);}
-function getC(){var m=document.cookie.match(/(?:^|; )myfortune=([^;]*)/);return m?decodeURIComponent(m[1]):null}
-function saved(){var v=null;try{v=localStorage.getItem("myfortune")}catch(e){}if(!v)v=getC();try{return v?JSON.parse(v):null}catch(e){return null}}
-function keep(f){var v=JSON.stringify(f);try{localStorage.setItem("myfortune",v)}catch(e){}document.cookie="myfortune="+encodeURIComponent(v)+";max-age=31536000;path=/;SameSite=Lax"}
-function show(){ $("s1").hidden=true;$("s3").hidden=true;$("s2").hidden=false;
- setTimeout(function(){var f=saved();if(!f){f={m:pick(A[g]),s:pick(S)};keep(f);}$("msg").textContent=f.m;$("sanga").textContent=f.s;$("s2").hidden=true;$("s3").hidden=false;},1400);}
-document.querySelectorAll("[data-g]").forEach(function(b){b.onclick=function(){g=b.dataset.g;show();};});
-var f0=saved();if(f0){$("s1").hidden=true;$("s3").hidden=false;$("msg").textContent=f0.m;$("sanga").textContent=f0.s;
- $("note").hidden=false;}
+function call(g){return fetch(U,{method:"POST",headers:{"content-type":"application/json","apikey":K},body:JSON.stringify({g:g,fp:fp})}).then(function(r){return r.json()});}
+function render(d){$("msg").textContent=d.m;$("sanga").textContent=d.s;$("note").hidden=!d.again;$("s1").hidden=true;$("s2").hidden=true;$("s3").hidden=false;}
+call(null).then(function(d){if(d.again)render(d);}).catch(function(){});
+document.querySelectorAll("[data-g]").forEach(function(b){b.onclick=function(){$("s1").hidden=true;$("s2").hidden=false;
+ Promise.all([call(b.dataset.g),new Promise(function(r){setTimeout(r,1400)})]).then(function(x){render(x[0]);}).catch(function(){$("s2").hidden=true;$("s1").hidden=false;});};});
 </script>
 </body>
 </html>
