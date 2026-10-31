@@ -1,4 +1,4 @@
-/* Shared header, footer, cart count and the Scott's Family sign-up popup */
+/* Shared header, footer, cart count and the Scott's Rewards popup */
 (function(){
   var PAGES=[["./","Home","home"],["menu.html","Menu","menu"],["order.html","Order Online","order"],["catering.html","Catering","catering"],["about.html","About","about"],["account.html","Your Account","account"],["contact.html","Contact Us","contact"]];
   var cur=document.body.getAttribute("data-page")||"home";
@@ -56,12 +56,12 @@
     var done=function(){b.textContent="Copied";setTimeout(function(){b.textContent="Copy";},1500);};
     try{navigator.clipboard.writeText(t).then(done,function(){});}catch(err){}});
 
-  /* Join Scott's Family popup (first visit) */
+  /* Scott's Rewards popup (first visit) */
   window.openJoin=function(){
     scrim.classList.add("signup");
-    openSheet('<div class="in"><span class="kicker">Join Scott\'s Family</span><h3>$3 off any sanga, every week</h3><p class="d">Sign up with your email and get $3 off any sanga, once a week, plus member deals and first dibs on new menu drops.</p>'+
-      '<a class="pill" id="suGo" href="'+ORDER_URL+'">Sign up on our ordering site</a>'+
-      '<p class="fine">Sign up with the "Join Scott\'s Family" box on our ordering page, then say "Scott\'s Family" at the counter. Unsubscribe any time.</p><button class="pill ghost" type="button" id="suX" style="margin-top:12px">Maybe later</button></div>');
+    openSheet('<div class="in"><span class="kicker">Scott\'s Rewards</span><h3>Get 20 points free</h3><p class="d">Create a free account and order online: 1 point for every $1, a free sanga at 100 points, and the $3 Sanga of the Week.</p>'+
+      '<a class="pill" id="suGo" href="account.html">Create my free account</a>'+
+      '<button class="pill ghost" type="button" id="suX" style="margin-top:12px">Maybe later</button></div>');
     function done(){store.set("joinSeen",true);closeSheet();}
     $("#suX").onclick=done;
     $("#suGo").addEventListener("click",function(){store.set("joinSeen",true);});
