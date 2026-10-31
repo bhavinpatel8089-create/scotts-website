@@ -105,14 +105,22 @@
     var pts=p.points||0,pct=Math.min(100,pts%100===0&&pts>0?100:pts%100);
     box.innerHTML='<div class="points"><span class="kicker" style="color:#fff">Hi '+esc(p.first_name||"there")+'</span><div class="big">'+pts+' pts</div><div class="bar"><i style="width:'+(pts>=100?100:pts)+'%"></i></div>'+
       '<p style="margin:0">'+(pts>=100?"You've got a free sanga waiting!":(100-pts)+" points to your next free sanga.")+'</p>'+
-      '<div class="rewards-list"><div class="rw"><span>Free sanga · 100 pts</span><button type="button" id="redeem"'+(pts<100?" disabled":"")+'>Claim</button></div></div>'+
+      '<div class="rewards-list"><div class="rw"><span>Free sanga · 100 pts</span><button type="button" id="redeem"'+(pts<100?" disabled":"")+'>Order it free</button></div></div><div id="pickWrap"></div>'+
       '<div id="vchs">'+vch.map(function(v){return '<div class="vch">'+esc(v.reward)+'<br><b>'+esc(v.code)+'</b><br><small>Show this code at the counter</small></div>';}).join("")+'</div></div>'+
       '<div class="card2"><h3>Your orders</h3>'+(orders.length?'<ul class="olist">'+orders.map(function(o){return '<li><span>'+esc(o.summary||"Order")+'<small>'+when(o.created_at)+(o.total_cents?" · "+money(o.total_cents):"")+'</small></span><b>+'+o.points_earned+' pts</b></li>';}).join("")+'</ul>':'<p class="note">No orders yet.</p>')+
       '<p style="color:var(--muted);font-size:14px;margin-top:14px">Order online with <b>'+esc(p.email)+'</b> and points add up automatically after you pay.</p>'+
       '<div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:12px"><a class="pill" href="order.html">Order &amp; earn</a><button class="pill ghost" type="button" id="out">Sign out</button></div>'+
       (p.is_staff?'<p style="margin-top:14px"><a href="staff.html">Staff tools →</a></p>':'')+'</div>';
     $("#out").onclick=async function(){await sb.auth.signOut();render();};
-    var rd=$("#redeem");rd.onclick=async function(){rd.disabled=true;var r=await sb.rpc("redeem_free_sanga");if(r.error){alertMsg(r.error.message);rd.disabled=false;return;}dash(user);};
+    var rd=$("#redeem");rd.onclick=async function(){rd.disabled=true;var w=$("#pickWrap");w.innerHTML='<p style="margin:10px 0">Loading sangas…</p>';
+      try{var m=await (await fetch("https://nkfhqroxkguewtemgpfe.supabase.co/functions/v1/table-menu")).json();}catch(e){w.innerHTML='<p class="err">Could not load the menu. Try again.</p>';rd.disabled=false;return;}
+      var list=[];(m.sections||[]).forEach(function(s){if(/drink|side/i.test(s.name))return;s.items.forEach(function(i){i.variations.forEach(function(v){list.push({id:v.id,n:i.name+(i.variations.length>1?" ("+v.name+")":""),s:s.name});});});});
+      w.innerHTML='<p style="margin:12px 0 8px;font-weight:700">Pick your free sanga:</p><div style="display:grid;gap:8px">'+list.map(function(x){return '<button type="button" class="pill ghost" data-v="'+x.id+'" style="background:#fff;color:var(--red);text-align:left">'+esc(x.n)+'</button>';}).join("")+'</div><p style="font-size:13px;margin-top:10px;opacity:.85">We start making it straight away. Pick up at the counter, show your name. Prefer to use it at the counter? <a href="#" id="asVoucher" style="color:#fff">Get a counter code instead</a></p>';
+      w.querySelectorAll("[data-v]").forEach(function(b){b.onclick=async function(){if(!confirm("Order a free "+b.textContent+" now for pickup? This uses 100 points."))return;w.querySelectorAll("button").forEach(function(x){x.disabled=true});b.textContent="Ordering…";
+        var r=await sb.functions.invoke("redeem-online",{body:{variation_id:b.dataset.v}});var j=r.data||{};if(r.error&&r.error.context){try{j=await r.error.context.json()}catch(e){}}
+        if(j.ok){w.innerHTML='<div class="vch"><b>Ordered!</b><br>Your free '+esc(j.item)+' is being made. Pick it up at the counter.</div>';setTimeout(function(){dash(user)},4000);}
+        else{w.innerHTML='<p class="err" style="background:#fff;padding:10px;border-radius:10px">'+esc(j.error||"Something went wrong.")+'</p>';rd.disabled=false;}};});
+      $("#asVoucher").onclick=async function(e){e.preventDefault();var r=await sb.rpc("redeem_free_sanga");if(r.error){w.innerHTML='<p class="err">'+esc(r.error.message)+'</p>';rd.disabled=false;return;}dash(user);};};
     function alertMsg(t){$("#vchs").insertAdjacentHTML("afterbegin",'<p class="err">'+esc(t)+'</p>');}
   }
 
