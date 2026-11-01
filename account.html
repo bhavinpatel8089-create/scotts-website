@@ -25,7 +25,7 @@
 <main>
   <section class="pagehead">
     <img src="img/h2_butter.jpg" alt="" aria-hidden="true">
-    <div class="wrap"><span class="kicker" style="color:#fff">Scott's Rewards</span><h1>Eat sangas. Earn sangas.</h1><p>Create a free account, earn 1 point for every $1 you spend online, get 100 points for a free sanga, and grab the $3 Sanga of the Week.</p></div>
+    <div class="wrap"><span class="kicker" style="color:#fff">Scott's Rewards</span><h1>Eat sangas. Earn sangas.</h1><p>Create a free account, earn 1 point for every $1 you spend online, get 100 points for a free sanga, and grab a $3 Egg &amp; Bacon Sanga every week.</p></div>
   </section>
   <section class="sec">
     <div class="wrap">
@@ -53,7 +53,7 @@
     if(!d){el.innerHTML="";return;}
     var claimed=false;
     if(user){var c=await sb.from("deal_claims").select("status").eq("deal_id",d.id).eq("user_id",user.id).maybeSingle();claimed=c.data&&c.data.status==="paid";}
-    el.innerHTML='<div class="deal">'+(d.image?'<img src="'+esc(d.image)+'" alt="">':'')+'<div><span class="kicker">$3 Sanga of the Week</span><h3>'+esc(d.item_name)+' · $3</h3><p>'+esc(d.description||"")+' One per account, this week only. Pay online, pick up hot at the counter.</p>'+
+    el.innerHTML='<div class="deal">'+(d.image?'<img src="'+esc(d.image)+'" alt="">':'')+'<div><span class="kicker">$3 Sanga of the Week</span><h3>'+esc(d.item_name)+' · $3</h3><p>'+esc(d.description||"")+' One per account each week, Monday to Friday 7:30–10:30am. Pay online, pick up hot at the counter.</p>'+
       (claimed?'<p><b>You\'ve claimed this week\'s deal. New one next Monday!</b></p>':'<button class="pill" type="button" id="claimBtn">'+(user?"Claim for $3":"Sign in to claim")+'</button>')+'<p id="dealMsg" class="err" hidden></p></div></div>';
     var b=$("#claimBtn");if(!b)return;
     b.onclick=async function(){
