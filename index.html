@@ -62,8 +62,8 @@
       <div class="center"><h2 id="join-h">Stay in the family</h2><p class="sub">Deals, points and new drops. Pick how you want to hear from us.</p></div>
       <div class="join3">
         <div class="jcard red">
-          <h3>$3 Egg &amp; Bacon Sanga</h3>
-          <p>Members only. One a week, Monday to Friday till 10:30am. Order online.</p>
+          <h3>$3 Sanga of the Week</h3>
+          <p>A new sanga every week for just $3. This week: Egg &amp; Bacon, Mon–Fri till 10:30am. Members only, one each, order online.</p>
           <a class="pill white" href="account.html">Get the deal</a>
         </div>
         <div class="jcard ink">
@@ -149,6 +149,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="rewards.js"></script>
-<script>scottsDeal().then(function(d){if(!d)return;var b=document.getElementById("dealBanner");b.textContent="$3 Egg & Bacon Sanga · Members only · Mon–Fri till 10:30am · Claim now →";b.hidden=false;});</script>
+<script>scottsDeal().then(function(d){if(!d)return;var b=document.getElementById("dealBanner");b.textContent="$3 Sanga of the Week: "+d.item_name+" · Members only, one each · Claim now →";b.hidden=false;});</script>
 </body>
 </html>

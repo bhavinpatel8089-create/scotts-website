@@ -59,7 +59,7 @@
   /* Scott's Rewards popup (first visit) */
   window.openJoin=function(){
     scrim.classList.add("signup");
-    openSheet('<div class="in"><span class="kicker">Scott\'s Rewards</span><h3>Get 20 points free</h3><p class="d">Create a free account and order online: 1 point for every $1, a free sanga at 100 points, and a $3 Egg & Bacon Sanga every week (Mon–Fri till 10:30am).</p>'+
+    openSheet('<div class="in"><span class="kicker">Scott\'s Rewards</span><h3>Get 20 points free</h3><p class="d">Create a free account and order online: 1 point for every $1, a free sanga at 100 points, and the $3 Sanga of the Week.</p>'+
       '<a class="pill" id="suGo" href="account.html">Create my free account</a>'+
       '<button class="pill ghost" type="button" id="suX" style="margin-top:12px">Maybe later</button></div>');
     function done(){store.set("joinSeen",true);closeSheet();}
