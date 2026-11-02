@@ -57,6 +57,8 @@
   $("#cats").addEventListener("click",function(e){var a=e.target.closest("a[data-cat]");if(!a)return;e.preventDefault();var t=document.getElementById("c-"+a.dataset.cat);if(t)t.scrollIntoView({behavior:"smooth"});});
   $("#diet").addEventListener("click",function(e){var b=e.target.closest("[data-diet]");if(!b)return;var on=b.getAttribute("aria-pressed")!=="true";b.setAttribute("aria-pressed",on);var f=b.dataset.diet;dietOn=dietOn.filter(function(x){return x!==f;});if(on)dietOn.push(f);render();});
   render();
+  /* live sold-out from Square: anything missing from table-menu is sold out */
+  fetch("https://nkfhqroxkguewtemgpfe.supabase.co/functions/v1/table-menu").then(function(r){return r.json();}).then(function(m){var live={};(m.sections||[]).forEach(function(s){s.items.forEach(function(i){live[i.id]=1;});});if(!Object.keys(live).length)return;Object.keys(items).forEach(function(id){var r=items[id];if(FOOD.indexOf(r.sec)>-1&&!live[id])r.it.soldOut=true;});render();}).catch(function(){});
   $("#synced").textContent="Menu and prices synced from Square · "+SYNCED+". Fresh OJ and the $6.50 meal deal are new and still need adding in Square.";
   document.addEventListener("click",function(e){var c=e.target.closest("[data-item]");if(c)openItem(c.dataset.item);});
 
