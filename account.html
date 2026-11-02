@@ -59,8 +59,9 @@
     b.onclick=async function(){
       if(!user){$("#a2")&&$("#a2").focus();window.scrollTo({top:box.offsetTop-90,behavior:"smooth"});return;}
       b.disabled=true;b.textContent="Starting checkout…";
-      var r=await sb.functions.invoke("claim-deal",{body:{}});
-      var j=r.data||{};if(r.error&&r.error.context){try{j=await r.error.context.json();}catch(e){}}
+      var body={},r,j;
+      for(var t=0;t<2;t++){r=await sb.functions.invoke("claim-deal",{body:body});j=r.data||{};if(r.error&&r.error.context){try{j=await r.error.context.json();}catch(e){}}
+        if(j.need_mobile&&t===0){var mb=prompt("Enter your mobile number to claim (one $3 sanga per mobile each week):");if(!mb)break;body={mobile:mb};continue;}break;}
       if(j.checkout_url){location.href=j.checkout_url;return;}
       var m=$("#dealMsg");m.hidden=false;m.textContent=j.error||"Could not start checkout. Try again.";b.disabled=false;b.textContent="Claim for $3";
     };
@@ -71,7 +72,7 @@
       '<form class="form" id="af" novalidate>'+
       (mode==="new"?'<label for="a1">First name</label><input id="a1" type="text" autocomplete="given-name" required>':'')+
       '<label for="a2">Email</label><input id="a2" type="email" inputmode="email" autocomplete="email" required>'+
-      (mode==="new"?'<label for="a3">Mobile</label><input id="a3" type="tel" autocomplete="tel">':'')+
+      (mode==="new"?'<label for="a3">Mobile</label><input id="a3" type="tel" inputmode="tel" autocomplete="tel" placeholder="04xx xxx xxx" required>':'')+
       '<label for="a5">Password</label><input id="a5" type="password" autocomplete="'+(mode==="new"?"new-password":"current-password")+'" minlength="6" required>'+
       (mode==="new"?'<label style="display:flex;gap:8px;align-items:center;text-transform:none;letter-spacing:0;font-weight:400;font-size:13px"><input type="checkbox" id="a4" checked style="width:auto"> Send me Scott\'s Family deals</label>':'')+
       '<button class="pill" type="submit" id="aGo">'+(mode==="new"?"Create account":"Sign in")+'</button>'+
@@ -89,6 +90,7 @@
       $("#aGo").disabled=true;
       var r;
       if(mode==="new"){var nm=$("#a1").value.trim();if(!nm){msg("Enter your first name.",1);$("#aGo").disabled=false;return;}
+        var mob=$("#a3").value.replace(/\D/g,"");if(!/^(04\d{8}|614\d{8})$/.test(mob)){msg("Enter a valid mobile number (04xx xxx xxx).",1);$("#aGo").disabled=false;return;}
         r=await sb.auth.signUp({email:em,password:pw,options:{data:{first_name:nm,mobile:$("#a3").value.trim(),marketing:$("#a4").checked},emailRedirectTo:"https://foodiemate.com.au/account.html"}});
         if(!r.error&&!r.data.session){msg("Nearly there! Check your email and tap the link to confirm your account.");$("#aGo").disabled=false;return;}
       }else r=await sb.auth.signInWithPassword({email:em,password:pw});
