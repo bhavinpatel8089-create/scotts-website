@@ -12,6 +12,7 @@
 </head>
 <body data-page="order">
 <main>
+  <a id="dealBanner" href="account.html" hidden style="display:block;background:#D71E28;color:#fff;text-align:center;padding:14px 16px;font-weight:700;text-decoration:none"></a>
   <div class="wrap">
     <div class="pickup">
       <div><b>Pickup from 1/1114 Gold Coast Hwy, Palm Beach</b><small id="pickupWhen">ASAP</small></div>
@@ -42,5 +43,8 @@
 <script src="app.js"></script>
 <script src="sqmenu.js"></script>
 <script src="order.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="rewards.js"></script>
+<script>scottsDeal().then(function(d){if(!d)return;var b=document.getElementById("dealBanner");b.textContent="$3 "+d.item_name+" this week · Members only · Tap to claim →";b.hidden=false;});</script>
 </body>
 </html>
