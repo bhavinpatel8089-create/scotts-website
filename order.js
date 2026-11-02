@@ -6,8 +6,8 @@
   /* new item, not in Square yet */
   var OJ={id:"NEW_OJ",name:"Freshly Squeezed Orange Juice",desc:"100% oranges, pressed to order. Nothing added.",v:[{id:"NEW_OJ_V",name:"Regular",p:1050}],m:[],img:null,tag:"NEW",fresh:true};
   var SECTIONS=[
-    {id:"specials",name:"Specials",note:"This week and this month.",items:pick(["Butter Chicken Sanga","Southern Fried BLAT"])},
-    {id:"chicken",name:"Chicken",items:pick(["Butter Chicken Sanga","Southern Fried Chicken Sandwich","Southern Fried BLAT","Chicken Sanga"])},
+    {id:"specials",name:"Specials",note:"This week and this month.",items:pick(["Southern Fried BLAT","Butter Chicken Sanga"])},
+    {id:"chicken",name:"Chicken",items:pick(["Southern Fried BLAT","Southern Fried Chicken Sandwich","Butter Chicken Sanga","Chicken Sanga"])},
     {id:"beef",name:"Beef & Pork",items:pick(["Philly Cheese Steak Sanga","Smoky BBQ Brisket Sanga","Scott's Reuben","Smash Burger","Spicy Pulled Pork Sanga","The Deli Stack","Leg Ham Sanga","Toasted Salami Melt"])},
     {id:"fish",name:"Fish",items:pick(["Fish Katsu","Hot Fish Finger","Tuna Steak Melt"])},
     {id:"veg",name:"Vegetarian & Vegan",items:pick(["'No Chicken' Sanga","Mushroom Sanga"])},

@@ -22,24 +22,11 @@
   <a id="dealBanner" href="account.html" hidden style="display:block;background:#1B1713;color:#fff;text-align:center;padding:12px 16px;font-weight:700;text-decoration:none"></a>
   <section class="slider" aria-roledescription="carousel" aria-label="Offers and new arrivals">
     <div class="slides" id="slides">
-      <div class="slide" role="group" aria-roledescription="slide" aria-label="1 of 4">
-        <img src="img/h2_butter.jpg" alt="Butter chicken sanga cut in half">
-        <div class="wrap"><span class="kick">New arrival</span><h2>Butter Chicken Sanga</h2><p>Crispy fried chicken, creamy butter chicken sauce, pickles, lettuce and aioli on toasted bread. Limited time.</p><span class="price">$18</span><a class="pill white" href="order.html#chicken">Order now</a></div>
-      </div>
-      <div class="slide red" role="group" aria-roledescription="slide" aria-label="2 of 4">
-        <img src="img/h2_meal.jpg" alt="A sanga with chips and sauce on a tray" loading="lazy">
-        <div class="wrap"><span class="kick">Deal</span><h2>Make it a meal for $6.50</h2><p>Add a side of chips and any drink to any sanga.</p><span class="price">+$6.50</span><a class="pill white" href="order.html">Build your meal</a></div>
-      </div>
-      <div class="slide red full" role="group" aria-roledescription="slide" aria-label="3 of 4">
-        <div class="wrap"><span class="kick">Fresh every day</span><h2>100% freshly squeezed orange juice</h2><p>Oranges pressed to order. Nothing added, nothing from a bottle.</p><span class="price">$10.50</span><a class="pill white" href="order.html#juice">Add an OJ</a></div>
-      </div>
-      <div class="slide" role="group" aria-roledescription="slide" aria-label="4 of 4">
-        <img src="img/h2_menu.jpg" alt="Nine sangas cut in half on timber" loading="lazy">
-        <div class="wrap"><span class="kick">November menu</span><h2>17 sangas. One counter.</h2><p>Philly, brisket, Reuben, fish katsu, smash burgers and more. See the full November menu.</p><a class="pill white" href="menu.html">See the menu</a></div>
+      <div class="slide" role="group" aria-label="Featured sanga">
+        <img src="img/menu/blat.jpg" alt="Southern Fried BLAT cut in half">
+        <div class="wrap"><span class="kick">Limited time</span><h2>Southern Fried BLAT</h2><p>Crispy southern fried chicken, bacon, lettuce, avocado, tomato and mayo on toasted bread.</p><span class="price">$18.50</span><a class="pill white" href="order.html#chicken">Order now</a></div>
       </div>
     </div>
-    <div class="dots" id="dots"></div>
-    <div class="arrows"><button type="button" id="prev" aria-label="Previous slide">&#8592;</button><button type="button" id="next" aria-label="Next slide">&#8594;</button></div>
   </section>
 
   <section class="fresh" aria-labelledby="fresh-h">
@@ -86,10 +73,10 @@
       <h2 id="news-h">What's new at Scott's</h2>
       <div class="news" style="margin-top:22px">
         <article class="post">
-          <div class="ph"><img src="img/menu/butter-chicken.jpg" alt="" loading="lazy"></div>
+          <div class="ph"><img src="img/menu/blat.jpg" alt="" loading="lazy"></div>
           <time datetime="2026-10">October 2026</time>
-          <h3>The Butter Chicken Sanga has landed</h3>
-          <p>Our first fusion sanga: crispy fried chicken in creamy butter chicken sauce. Here for a limited time.</p>
+          <h3>The Southern Fried BLAT is here</h3>
+          <p>Crispy southern fried chicken, bacon, avocado, lettuce and tomato. Here for a limited time.</p>
           <a class="pill ghost" href="order.html#chicken" style="align-self:flex-start">Order it</a>
         </article>
         <article class="post">
@@ -133,7 +120,7 @@
   var p=$("#promo");try{if(sessionStorage.getItem("promoHidden")==="1")p.hidden=true;}catch(e){}
   $("#promoX").onclick=function(){p.hidden=true;try{sessionStorage.setItem("promoHidden","1");}catch(e){}};
   /* slider: slides left to right, holds each slide for 5 seconds */
-  var track=$("#slides"),n=track.children.length,i=0,timer=null;
+  var track=$("#slides"),n=track.children.length,i=0,timer=null;if(n<2||!$("#dots"))return;
   var dots=$("#dots");for(var k=0;k<n;k++)dots.insertAdjacentHTML("beforeend",'<button type="button" aria-label="Go to slide '+(k+1)+'"></button>');
   function go(j){i=(j+n)%n;track.style.transform="translateX(-"+(i*100)+"%)";dots.querySelectorAll("button").forEach(function(b,x){b.setAttribute("aria-current",x===i?"true":"false");});}
   function start(){stop();timer=setInterval(function(){go(i+1);},5000);}
