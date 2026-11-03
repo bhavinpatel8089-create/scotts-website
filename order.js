@@ -19,6 +19,7 @@
   ];
   var FOOD=["chicken","beef","fish","veg","brekky","specials"];
   var MEAL_LIST="RC5ZV6NANDE5J76GD7B3JNRJ";
+  var MEAL_DRINKS={1:["Coke","Coke No Sugar","Jarritos Mandarin","Jarritos Mango","San Pell Orange","San Pell Blood Orange","San Pell Lemon","San Pell Pomegranate","Sparkling water","Bobby Cola","Bobby Ginger Beer","Bobby Orange","Bobby Passionfruit","Frekl Classic","Frekl Cloudy Apple","Frekl Double Ginger","Frekl Finger Lime","Kuro","Still water"],2:["Iced Coffee","Iced Latte","Iced Long Black","Iced Mocha","Iced Chai"],3:["Fresh OJ","Orange Blend","Daily Greens","Love Beets","Sublime Pine"],4:["Fujin Sunset smoothie","Green Super smoothie","Gym Nut smoothie"],5:["Balter XPA","Great Northern","Corona"]};
   /* online ordering window: 7:30am to 2:30pm, every day */
   var HOURS={0:["07:30","14:30"],1:["07:30","14:30"],2:["07:30","14:30"],3:["07:30","14:30"],4:["07:30","14:30"],5:["07:30","14:30"],6:["07:30","14:30"]};
   /* SOLD OUT: put item names here (or mark them sold out in Square) and they can't be ordered */
@@ -81,22 +82,22 @@
     var rec=items[id];if(!rec)return;if(isOut(rec.it)){toast(rec.it.name+" is sold out today");return;}var it=rec.it,qty=1,food=FOOD.indexOf(rec.sec)>-1;
     var groups=[];
     if(it.v.length>1)groups.push({t:"Choose",single:true,o:it.v.map(function(v){return [v.name,v.p];}),isVar:true});
-    if(food)groups.push({t:"Make it a meal",single:true,o:[["No thanks",0],["Meal: side of chips + any drink",650]],meal:true});
+    if(food)groups.push({t:"Make it a meal",single:true,o:[["No thanks",0],["Meal + soft drink",650],["Meal + iced coffee",900],["Meal + juice",1000],["Meal + smoothie",1150],["Meal + beer (dine in)",1000]],meal:true});
     it.m.forEach(function(mid){if(mid===MEAL_LIST)return;var M=SQ_MODS[mid];if(M)groups.push({t:M.name,single:M.single,o:M.o});});
     var g=groups.map(function(gr,gi){return '<div class="grp"><h4>'+esc(gr.t)+'</h4>'+gr.o.map(function(o,oi){
       var price=gr.isVar?money(o[1]):(o[1]?"+"+money(o[1]):"");
       return '<label class="opt"><input type="'+(gr.single?"radio":"checkbox")+'" name="g'+gi+'" value="'+oi+'"'+(gr.single&&oi===0?" checked":"")+'><span>'+esc(o[0])+'</span><em>'+price+'</em></label>';}).join("")+
-      (gr.meal?'<div id="mealDrink" hidden><label class="f" for="md" style="display:block;font-family:var(--ui);font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.06em;margin:8px 0 6px">Your drink</label><select id="md"><option>Coke</option><option>Coke No Sugar</option><option>Sprite</option><option>Sparkling water</option><option>Still water</option></select></div>':'')+'</div>';}).join("");
+      (gr.meal?'<div id="mealDrink" hidden><label class="f" for="ms" style=\"display:block;font-family:var(--ui);font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.06em;margin:10px 0 6px\">Your side</label><select id="ms"><option>Chips</option><option>Hash brown</option></select><label class="f" for="md" style=\"display:block;font-family:var(--ui);font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.06em;margin:10px 0 6px\">Your drink</label><select id="md"></select></div>':'')+'</div>';}).join("");
     openSheet('<div class="img">'+pic(it)+'</div><div class="in"><h3>'+esc(it.name)+'</h3><p class="d">'+esc(it.desc)+'</p>'+g+
       '<div class="grp"><h4>Notes for the kitchen</h4><textarea id="itemNote" rows="2" placeholder="e.g. no pickles, extra crispy"></textarea></div></div>'+
       '<div class="foot"><button class="x" type="button" id="xBtn" aria-label="Close">&times;</button><div class="qty"><button type="button" id="qm" aria-label="One less">&minus;</button><span id="qn">1</span><button type="button" id="qp" aria-label="One more">+</button></div><button class="pill" type="button" id="addBtn"></button></div>');
     function calc(){
       var unit=it.v[0].p,vname=it.v.length>1?it.v[0].name:"",mods=[];
       groups.forEach(function(gr,gi){$("#sheet").querySelectorAll('input[name="g'+gi+'"]:checked').forEach(function(inp){var o=gr.o[+inp.value];
-        if(gr.isVar){unit=o[1];vname=o[0];}else{unit+=o[1];if(!(gr.single&&+inp.value===0&&!o[1]))mods.push(gr.meal?"MEAL: chips + "+$("#md").value:o[0]);}});});
+        if(gr.isVar){unit=o[1];vname=o[0];}else{unit+=o[1];if(!(gr.single&&+inp.value===0&&!o[1]))mods.push(gr.meal?"MEAL: "+$("#ms").value+" + "+$("#md").value:o[0]);}});});
       return{unit:unit,v:vname,mods:mods};
     }
-    function upd(){var m=$("#mealDrink");if(m){var on=$("#sheet").querySelector('#sheet input[value="1"][name="g'+groups.findIndex(function(x){return x.meal;})+'"]');m.hidden=!(on&&on.checked);}
+    function upd(){var m=$("#mealDrink");if(m){var mi=groups.findIndex(function(x){return x.meal;}),on=$("#sheet").querySelector('input[name="g'+mi+'"]:checked'),t=on?+on.value:0;m.hidden=!t;var md=$("#md");if(t&&md.dataset.t!=String(t)){md.dataset.t=t;md.innerHTML=MEAL_DRINKS[t].map(function(d){return "<option>"+esc(d)+"</option>";}).join("");}}
       $("#addBtn").textContent="Add to order · A"+money(calc().unit*qty);$("#qn").textContent=qty;}
     $("#sheet").onchange=upd;upd();
     $("#qm").onclick=function(){if(qty>1){qty--;upd();}};
