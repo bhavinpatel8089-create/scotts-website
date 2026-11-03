@@ -3,6 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Join Scott's Rewards: 20 points free, 1 point per $1, a free sanga at 100 points and the $3 Sanga of the Week.">
+<link rel="icon" href="img/logo.png">
+<link rel="apple-touch-icon" href="img/logo.png">
+<meta property="og:title" content="Your Account · Scott's Sandwiches">
+<meta property="og:description" content="Join Scott's Rewards: 20 points free, 1 point per $1, a free sanga at 100 points and the $3 Sanga of the Week.">
+<meta property="og:image" content="https://foodiemate.com.au/img/h2_menu.jpg">
+<meta property="og:url" content="https://foodiemate.com.au/account.html">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#D71E28">
 <title>Your Account · Scott's Sandwiches</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -75,7 +85,7 @@
       (mode==="new"?'<label for="a3">Mobile</label><input id="a3" type="tel" inputmode="tel" autocomplete="tel" placeholder="04xx xxx xxx" required>':'')+
       '<label for="a5">Password</label><input id="a5" type="password" autocomplete="'+(mode==="new"?"new-password":"current-password")+'" minlength="6" required>'+
       (mode==="new"?'<label style="display:flex;gap:8px;align-items:center;text-transform:none;letter-spacing:0;font-weight:400;font-size:13px"><input type="checkbox" id="a4" checked style="width:auto"> Send me Scott\'s Family deals</label>':'')+
-      '<button class="pill" type="submit" id="aGo">'+(mode==="new"?"Create account":"Sign in")+'</button>'+
+      (mode==="new"?'<p style="font-size:13px;color:var(--muted);margin:0">By joining you agree to our <a href="privacy.html">privacy &amp; rewards terms</a>.</p>':'')+'<button class="pill" type="submit" id="aGo">'+(mode==="new"?"Create account":"Sign in")+'</button>'+
       (mode==="in"?' <button class="pill ghost" type="button" id="forgot">Forgot password</button>':'')+
       '<p id="aMsg" class="note" hidden></p></form></div>'+
       '<div class="points"><span class="kicker" style="color:#fff">Welcome bonus</span><div class="big">+20 pts</div><p style="margin:0">Join today and start with 20 points. Your account works on any phone, any time.</p></div>';

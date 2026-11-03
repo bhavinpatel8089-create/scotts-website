@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /staff.html
+Disallow: /t.html
+Disallow: /v.html
+Sitemap: https://foodiemate.com.au/sitemap.xml

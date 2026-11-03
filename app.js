@@ -19,7 +19,7 @@
     '<img src="img/logo.png" alt="Scott\'s Sandwiches" width="1623" height="385" loading="lazy">'+
     '<div class="footlinks">'+PAGES.map(function(p){return '<a href="'+p[0]+'">'+p[1]+'</a>';}).join("")+'<a href="https://www.instagram.com/scotts_luncheonette_bar/" target="_blank" rel="noopener">Instagram</a><a href="https://www.tiktok.com/@scottssandwiches" target="_blank" rel="noopener">TikTok</a></div>'+
     '<span>1/1114 Gold Coast Highway, Palm Beach QLD 4221 · 0473 460 362 · hello@scottspalmbeach.com.au</span>'+
-    '<span>Scott\'s Luncheonette &amp; Bar · Foodie Mate Pty Ltd · ABN 66 675 612 174</span></div></footer>';
+    '<span>Scott\'s Luncheonette &amp; Bar · Foodie Mate Pty Ltd · ABN 66 675 612 174 · <a href="privacy.html" style="color:inherit">Privacy &amp; rewards terms</a></span></div></footer>';
   var pr=document.getElementById("promo");if(pr)pr.insertAdjacentHTML("afterend",header);else document.body.insertAdjacentHTML("afterbegin",header);
   document.body.insertAdjacentHTML("beforeend",footer+'<div class="scrim" id="scrim" hidden><div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="Dialog"></div></div>');
 
