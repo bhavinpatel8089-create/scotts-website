@@ -79,6 +79,7 @@
 
   /* item sheet */
   function openItem(id){
+    if(window.SCOTTS_CLOSED){toast(window.SCOTTS_CLOSED);return;}
     var rec=items[id];if(!rec)return;if(isOut(rec.it)){toast(rec.it.name+" is sold out today");return;}var it=rec.it,qty=1,food=FOOD.indexOf(rec.sec)>-1;
     var groups=[];
     if(it.v.length>1)groups.push({t:"Choose",single:true,o:it.v.map(function(v){return [v.name,v.p];}),isVar:true});
@@ -112,6 +113,7 @@
   function total(){return cart.reduce(function(s,l){return s+l.unit*l.qty;},0);}
   var UPSELL=[["Chips",550,null],["Freshly Squeezed Orange Juice",1050,null],["Hash Brown",300,null],["Aioli",200,null]];
   function openCart(){
+    if(window.SCOTTS_CLOSED){toast(window.SCOTTS_CLOSED);return;}
     if(!cart.length){openSheet('<div class="in"><h3>Your order</h3><p class="d">Your cart is empty. Pick a sanga to get started.</p></div><div class="foot"><button class="x" type="button" id="xBtn" aria-label="Close">&times;</button><button class="pill" type="button" id="goMenu">Browse the menu</button></div>');
       $("#xBtn").onclick=closeSheet;$("#goMenu").onclick=closeSheet;return;}
     openSheet('<div class="in"><h3>Your order</h3><p class="d">Pickup from Scott\'s Palm Beach</p><div id="lines"></div>'+
@@ -144,7 +146,7 @@
     };
   }
   $("#cartBtn").addEventListener("click",function(e){e.preventDefault();openCart();});
-  $("#viewCart").addEventListener("click",openCart);
+  $("#viewCart").addEventListener("click",function(){if(window.SCOTTS_CLOSED){toast(window.SCOTTS_CLOSED);return;}openCart();});
   $("#changeTime").addEventListener("click",function(){
     openSheet('<div class="in"><h3>Pickup time</h3><label class="f" for="pt">When do you want it?</label><select id="pt">'+opts(pickup)+'</select></div><div class="foot"><button class="x" type="button" id="xBtn" aria-label="Close">&times;</button><button class="pill" type="button" id="ptOk">Save</button></div>');
     $("#xBtn").onclick=closeSheet;$("#ptOk").onclick=function(){pickup=$("#pt").value;$("#pickupWhen").textContent="Pickup: "+pickup;closeSheet();};

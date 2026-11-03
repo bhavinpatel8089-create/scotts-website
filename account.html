@@ -49,6 +49,7 @@
     </div>
   </section>
 </main>
+<script src="closed.js"></script>
 <script src="app.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="rewards.js"></script>
@@ -67,6 +68,7 @@
       (claimed?'<p><b>You\'ve claimed this week\'s deal. New one next Monday!</b></p>':'<button class="pill" type="button" id="claimBtn">'+(user?"Claim for $3":"Sign in to claim")+'</button>')+'<p id="dealMsg" class="err" hidden></p></div></div>';
     var b=$("#claimBtn");if(!b)return;
     b.onclick=async function(){
+      if(window.SCOTTS_CLOSED){var mm=$("#dealMsg");mm.hidden=false;mm.textContent=window.SCOTTS_CLOSED;return;}
       if(!user){$("#a2")&&$("#a2").focus();window.scrollTo({top:box.offsetTop-90,behavior:"smooth"});return;}
       b.disabled=true;b.textContent="Starting checkout…";
       var body={},r,j;
@@ -124,7 +126,7 @@
       '<div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:12px"><a class="pill" href="order.html">Order &amp; earn</a><button class="pill ghost" type="button" id="out">Sign out</button></div>'+
       (p.is_staff?'<p style="margin-top:14px"><a href="staff.html">Staff tools →</a></p>':'')+'</div>';
     $("#out").onclick=async function(){await sb.auth.signOut();render();};
-    var rd=$("#redeem");rd.onclick=async function(){rd.disabled=true;var w=$("#pickWrap");w.innerHTML='<p style="margin:10px 0">Loading sangas…</p>';
+    var rd=$("#redeem");rd.onclick=async function(){if(window.SCOTTS_CLOSED){alertMsg(window.SCOTTS_CLOSED);return;}rd.disabled=true;var w=$("#pickWrap");w.innerHTML='<p style="margin:10px 0">Loading sangas…</p>';
       try{var m=await (await fetch("https://nkfhqroxkguewtemgpfe.supabase.co/functions/v1/table-menu")).json();}catch(e){w.innerHTML='<p class="err">Could not load the menu. Try again.</p>';rd.disabled=false;return;}
       var list=[];(m.sections||[]).forEach(function(s){if(/drink|side/i.test(s.name))return;s.items.forEach(function(i){i.variations.forEach(function(v){list.push({id:v.id,n:i.name+(i.variations.length>1?" ("+v.name+")":""),s:s.name});});});});
       w.innerHTML='<p style="margin:12px 0 8px;font-weight:700">Pick your free sanga:</p><div style="display:grid;gap:8px">'+list.map(function(x){return '<button type="button" class="pill ghost" data-v="'+x.id+'" style="background:#fff;color:var(--red);text-align:left">'+esc(x.n)+'</button>';}).join("")+'</div><p style="font-size:13px;margin-top:10px;opacity:.85">We start making it straight away. Pick it up when it’s ready.</p>';
