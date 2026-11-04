@@ -34,11 +34,11 @@
   /* Real ordering runs on Square Online (pickup, payment, dockets) */
   var ORDER_URL="https://scottspalmbeach.square.site/";
   window.ORDER_URL=ORDER_URL;
-  if(cur==="order"){location.replace(ORDER_URL);}
-  function fixOrderLinks(root){(root||document).querySelectorAll('a[href^="order.html"]').forEach(function(a){a.href=ORDER_URL;});}
-  fixOrderLinks();
-  document.addEventListener("click",function(e){var a=e.target.closest('a[href^="order.html"]');if(a){e.preventDefault();location.href=ORDER_URL;}},true);
-  setTimeout(fixOrderLinks,500);
+  
+  
+
+  
+
 
   /* cart count (shared across pages for this visit) */
   window.updCartBadge=function(){var c=sess.get("cart",[]),n=c.reduce(function(s,l){return s+l.qty;},0),b=$("#cartN");b.hidden=!n;b.textContent=n;};
