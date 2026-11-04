@@ -42,7 +42,7 @@
       <div class="how" style="margin-bottom:28px">
         <div><b>+20 pts</b>just for signing up.</div>
         <div><b>1 pt</b>for every $1 you spend when you order online with your account email.</div>
-        <div><b>100 pts</b>gets you a free sanga of your choice.</div>
+        <div><b>100 pts</b>gets you a free sanga of your choice. Points reset to 0 when you claim it.</div>
       </div>
       <div id="dealBox"></div>
       <div class="acct" id="acct"><p class="note">Loading…</p></div>
@@ -130,7 +130,7 @@
       try{var m=await (await fetch("https://nkfhqroxkguewtemgpfe.supabase.co/functions/v1/table-menu")).json();}catch(e){w.innerHTML='<p class="err">Could not load the menu. Try again.</p>';rd.disabled=false;return;}
       var list=[];(m.sections||[]).forEach(function(s){if(/drink|side/i.test(s.name))return;s.items.forEach(function(i){i.variations.forEach(function(v){list.push({id:v.id,n:i.name+(i.variations.length>1?" ("+v.name+")":""),s:s.name});});});});
       w.innerHTML='<p style="margin:12px 0 8px;font-weight:700">Pick your free sanga:</p><div style="display:grid;gap:8px">'+list.map(function(x){return '<button type="button" class="pill ghost" data-v="'+x.id+'" style="background:#fff;color:var(--red);text-align:left">'+esc(x.n)+'</button>';}).join("")+'</div><p style="font-size:13px;margin-top:10px;opacity:.85">We start making it straight away. Pick it up when it’s ready.</p>';
-      w.querySelectorAll("[data-v]").forEach(function(b){b.onclick=async function(){if(!confirm("Order a free "+b.textContent+" now for pickup? This uses 100 points."))return;w.querySelectorAll("button").forEach(function(x){x.disabled=true});b.textContent="Ordering…";
+      w.querySelectorAll("[data-v]").forEach(function(b){b.onclick=async function(){if(!confirm("Order a free "+b.textContent+" now for pickup? This uses your points (they go back to 0 and you start again)."))return;w.querySelectorAll("button").forEach(function(x){x.disabled=true});b.textContent="Ordering…";
         var r=await sb.functions.invoke("redeem-online",{body:{variation_id:b.dataset.v}});var j=r.data||{};if(r.error&&r.error.context){try{j=await r.error.context.json()}catch(e){}}
         if(j.ok){w.innerHTML='<div class="vch"><b>Ordered!</b><br>Your free '+esc(j.item)+' is being made. Pick it up at the counter.</div>';setTimeout(function(){dash(user)},4000);}
         else{w.innerHTML='<p class="err" style="background:#fff;padding:10px;border-radius:10px">'+esc(j.error||"Something went wrong.")+'</p>';rd.disabled=false;}};});

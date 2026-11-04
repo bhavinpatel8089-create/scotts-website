@@ -70,7 +70,7 @@ textarea,input[type=text]{width:100%;border:1px solid var(--line);border-radius:
   if(q.get("paid")){try{sessionStorage.removeItem(KEY)}catch(e){}
     $("#main").innerHTML='<div class="done"><h1>Thanks! 🙌</h1><p style="font-size:18px">Your order is in. '+(PK?"It\'ll be ready "+esc((q.get("at")||"in about 15 min").replace(/^about/,"in about"))+". Grab it from the counter at 1/1114 Gold Coast Hwy, Palm Beach.</p><p>If you\'re signed in, your points are added automatically.":"We\'ll bring it to <b>"+TL+"</b>.")+'</p><p style="color:var(--muted)">Want points on your next order? <a href="account.html">Create a free account</a>.</p><p><a class="btn ghost" style="max-width:320px;margin:24px auto 0" href="'+BACK+'">Order more</a></p></div>';$("#nav").hidden=true;return;}
 
-  var menu=null,user=null,byId={};
+  var menu=null,user=null,byId={},PTS=0;
   function nowMin(){var p=new Intl.DateTimeFormat("en-AU",{timeZone:"Australia/Brisbane",hour:"2-digit",minute:"2-digit",hour12:false}).formatToParts(new Date());var g=function(t){return +((p.find(function(x){return x.type===t})||{}).value||0)};return (g("hour")%24)*60+g("minute");}
   function sectionOpen(s){if(!s.until)return true;var h=s.until.split(":");return (PK&&SLOT?SLOT.m:nowMin())<=(+h[0])*60+(+h[1]);}
   var open=nowMin()>=450&&nowMin()<=870;
@@ -88,7 +88,7 @@ textarea,input[type=text]{width:100%;border:1px solid var(--line);border-radius:
   function render(){
     $("#nav").innerHTML=menu.sections.map(function(s,i){return '<a href="#s'+i+'">'+esc(s.name.replace(/ \(.*/,""))+'</a>'}).join("");
     $("#main").innerHTML=(PK&&dealOn()?'<a href="account.html#dealBox" style="display:block;background:#ffd400;color:#111;border-radius:12px;padding:14px 16px;margin:0 0 14px;text-decoration:none"><b style="font-size:18px">$3 '+esc(DEAL.item_name)+' this week</b><br>Members only, 1 per mobile. Tap to claim it on your account →</a>':'')+(PK?'<div class="grp" style="margin:0 0 14px"><h4>Pickup time <small style="color:var(--muted);font-weight:500">(we need 15 min to make it fresh)</small></h4><select id="slot" style="width:100%;padding:12px;font-size:16px;border-radius:10px">'+SLOTS.map(function(o){return '<option value="'+o.v+'"'+(SLOT&&SLOT.v===o.v?' selected':'')+'>'+o.l+'</option>'}).join('')+'</select></div>':'')+(open||PK?'':'<p class="msg err">'+(PK?'Online ordering is open 7:30am – 2:30pm.':'Table ordering is open 7:30am – 2:30pm. Please order at the counter.')+'</p>')+
-      (user?'<p class="msg">Signed in as <b>'+esc(user.email)+'</b>, so this order earns points.</p>':'<p class="msg">Have a Scott\'s account? <a href="account.html">Sign in</a> to earn points on this order.</p>')+
+      (user&&PTS>=100?'<a href="account.html" style="display:block;background:#111;color:#fff;border-radius:12px;padding:14px 16px;margin:0 0 14px;text-decoration:none"><b style="font-size:18px">🎉 You\'ve got a FREE sanga!</b><br>'+PTS+' points. Tap to claim it on your account →</a>':'')+(user?'<p class="msg">Signed in as <b>'+esc(user.email)+'</b>, so this order earns points.</p>':'<p class="msg">Have a Scott\'s account? <a href="account.html">Sign in</a> to earn points on this order.</p>')+
       menu.sections.map(function(s,i){var ok=sectionOpen(s);return '<h2 id="s'+i+'">'+esc(s.name)+'</h2>'+(ok?'':'<p class="sub">'+(PK?'Only for pickup by '+hm(630)+'. Pick an earlier time to order these.':'Finished for today.')+'</p>')+
         s.items.map(function(it){byId[it.id]=it;var p=Math.min.apply(null,it.variations.map(function(v){return v.price}));
           return '<button type="button" class="item'+(ok&&(PK||open)?'':' off')+'" data-id="'+it.id+'"'+(ok&&(PK||open)?'':' disabled')+'>'+(it.image?'<img src="'+esc(it.image)+'" alt="" loading="lazy">':'<span class="ph"></span>')+
@@ -145,7 +145,7 @@ function tierOf(o){if(!o.price)return 0;if(/dine in/i.test(o.name))return 5;retu
   $("#viewCart").onclick=openCart;
 
   Promise.all([fetch(FN+"table-menu").then(function(r){return r.json()}),SCOTTS_SB.auth.getSession().then(function(r){return r.data.session}).catch(function(){return null})])
-    .then(async function(a){menu=a[0];user=a[1]&&a[1].user;if(user){try{var p=(await SCOTTS_SB.from("profiles").select("is_staff").eq("id",user.id).single()).data;if(p&&p.is_staff)open=true;}catch(e){}}if(!menu.sections||!menu.sections.length)throw 0;render();})
+    .then(async function(a){menu=a[0];user=a[1]&&a[1].user;if(user){try{var p=(await SCOTTS_SB.from("profiles").select("is_staff,points").eq("id",user.id).single()).data;if(p&&p.is_staff)open=true;if(p)PTS=p.points||0;}catch(e){}}if(!menu.sections||!menu.sections.length)throw 0;render();})
     .catch(function(){$("#main").innerHTML='<p class="msg err">Sorry, the menu didn\'t load. Please refresh, or order at the counter.</p>';});
 })();
 </script>
