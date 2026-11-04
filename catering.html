@@ -68,7 +68,7 @@
   </section>
 </main>
 <script src="closed.js"></script>
-<script src="app.js"></script>
+<script src="app.js?v=20261104b"></script>
 <script>
 $("#catForm").addEventListener("submit",function(e){e.preventDefault();if(!$("#c1").value.trim()){$("#c1").focus();$("#c1").style.borderColor="var(--red)";return;}
 var f=this,L=[];f.querySelectorAll("input,select,textarea").forEach(function(x){var l=f.querySelector("label[for=\""+x.id+"\"]");if(x.value.trim())L.push((l?l.textContent:x.name||x.id)+": "+x.value.trim());});var m=$("#catMsg"),btn=f.querySelector("button[type=submit]");btn.disabled=true;btn.textContent="Sending…";m.hidden=true;var data={_subject:"Catering enquiry - Scott's website",_template:"table",_captcha:"false"};f.querySelectorAll("input,select,textarea").forEach(function(x){var l=f.querySelector("label[for=\""+x.id+"\"]");if(x.value.trim())data[l?l.textContent:x.id]=x.value.trim();});fetch("https://formsubmit.co/ajax/hello@scottspalmbeach.com.au",{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify(data)}).then(function(r){return r.json();}).then(function(j){if(j.success===false||j.success==="false")throw 0;f.reset();m.hidden=false;m.textContent="Sent! Thanks, we'll get back to you soon.";btn.textContent="Sent";}).catch(function(){m.hidden=false;m.textContent="Sorry, that didn't send. Please call us on 0473 460 362.";btn.disabled=false;btn.textContent="Try again";});});
