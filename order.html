@@ -56,6 +56,7 @@ textarea,input[type=text]{width:100%;border:1px solid var(--line);border-radius:
 <div class="bar" id="bar" hidden><button class="btn" type="button" id="viewCart"><span id="cartN">0 items</span><span>View order · <span id="cartT">$0.00</span></span></button></div>
 <div id="sheet"></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="sqmenu.js"></script>
 <script src="rewards.js"></script>
 <script>
 (function(){
@@ -85,13 +86,15 @@ textarea,input[type=text]{width:100%;border:1px solid var(--line);border-radius:
   var DEAL=null;if(PK&&window.scottsDeal)window.scottsDeal().then(function(d){DEAL=d;if(menu)render();}).catch(function(){});
   function dealOn(){if(!DEAL)return false;var wd=new Date(Date.now()+36e6).getUTCDay(),n=nowMin();if(/egg|bacon|brekky/i.test(DEAL.item_name||""))return wd>0&&wd<6&&n>=450&&n<630;return true;}
 
+  var IMG={};try{(window.SQ_MENU||[]).forEach(function(c){(c.items||[]).forEach(function(x){if(x.img){IMG[x.id]=x.img;IMG[(x.name||"").toLowerCase()]=x.img;}});});}catch(e){}
+  function pic(it){return it.image||IMG[it.id]||IMG[(it.name||"").toLowerCase()]||null;}
   function render(){
     $("#nav").innerHTML=menu.sections.map(function(s,i){return '<a href="#s'+i+'">'+esc(s.name.replace(/ \(.*/,""))+'</a>'}).join("");
     $("#main").innerHTML=(PK&&dealOn()?'<a href="account.html#dealBox" style="display:block;background:#ffd400;color:#111;border-radius:12px;padding:14px 16px;margin:0 0 14px;text-decoration:none"><b style="font-size:18px">$3 '+esc(DEAL.item_name)+' this week</b><br>Members only, 1 per mobile. Tap to claim it on your account →</a>':'')+(PK?'<div class="grp" style="margin:0 0 14px"><h4>Pickup time <small style="color:var(--muted);font-weight:500">(we need 15 min to make it fresh)</small></h4><select id="slot" style="width:100%;padding:12px;font-size:16px;border-radius:10px">'+SLOTS.map(function(o){return '<option value="'+o.v+'"'+(SLOT&&SLOT.v===o.v?' selected':'')+'>'+o.l+'</option>'}).join('')+'</select></div>':'')+(open||PK?'':'<p class="msg err">'+(PK?'Online ordering is open 7:30am – 2:30pm.':'Table ordering is open 7:30am – 2:30pm. Please order at the counter.')+'</p>')+
       (user&&PTS>=100?'<a href="account.html" style="display:block;background:#111;color:#fff;border-radius:12px;padding:14px 16px;margin:0 0 14px;text-decoration:none"><b style="font-size:18px">🎉 You\'ve got a FREE sanga!</b><br>'+PTS+' points. Tap to claim it on your account →</a>':'')+(user?'<p class="msg">Signed in as <b>'+esc(user.email)+'</b>, so this order earns points.</p>':'<p class="msg">Have a Scott\'s account? <a href="account.html">Sign in</a> to earn points on this order.</p>')+
       menu.sections.map(function(s,i){var ok=sectionOpen(s);return '<h2 id="s'+i+'">'+esc(s.name)+'</h2>'+(ok?'':'<p class="sub">'+(PK?'Only for pickup by '+hm(630)+'. Pick an earlier time to order these.':'Finished for today.')+'</p>')+
         s.items.map(function(it){byId[it.id]=it;it.sec=s.name;var p=Math.min.apply(null,it.variations.map(function(v){return v.price}));
-          return '<button type="button" class="item'+(ok&&(PK||open)?'':' off')+'" data-id="'+it.id+'"'+(ok&&(PK||open)?'':' disabled')+'>'+(it.image?'<img src="'+esc(it.image)+'" alt="" loading="lazy">':'<span class="ph"></span>')+
+          return '<button type="button" class="item'+(ok&&(PK||open)?'':' off')+'" data-id="'+it.id+'"'+(ok&&(PK||open)?'':' disabled')+'>'+(pic(it)?'<img src="'+esc(pic(it))+'" alt="" loading="lazy">':'<span class="ph"></span>')+
           '<span><b>'+esc(it.name.toLowerCase())+'</b><p>'+esc(it.desc)+'</p><span class="pr">'+money(p)+'</span></span></button>'}).join("")}).join("");
     document.querySelectorAll(".item[data-id]").forEach(function(b){b.onclick=function(){openItem(byId[b.dataset.id])}});
     if(PK&&$("#slot"))$("#slot").onchange=function(){var v=this.value;SLOT=SLOTS.find(function(o){return o.v===v});render();};
@@ -111,7 +114,7 @@ function tierOf(o){if(!o.price)return 0;if(/dine in/i.test(o.name))return 5;retu
       if(!t){var z=d.querySelector('label[data-t="0"] input');if(z)z.checked=true;}else if(!cur||+cur.closest("label").dataset.t!==t){if(first)first.checked=true;}});}
   function openItem(it){
     var v=it.variations[0],qty=1;
-    sheet('<button class="x" type="button" id="x" aria-label="Close">×</button>'+(it.image?'<img class="hero" src="'+esc(it.image)+'" alt="">':'')+'<div class="in"><h3>'+esc(it.name.toLowerCase())+'</h3><p style="color:var(--muted);margin:0">'+esc(it.desc)+'</p>'+
+    sheet('<button class="x" type="button" id="x" aria-label="Close">×</button>'+(pic(it)?'<img class="hero" src="'+esc(pic(it))+'" alt="">':'')+'<div class="in"><h3>'+esc(it.name.toLowerCase())+'</h3><p style="color:var(--muted);margin:0">'+esc(it.desc)+'</p>'+
       (it.variations.length>1?'<div class="grp"><h4>Choose</h4>'+it.variations.map(function(x,i){return '<label class="opt"><span>'+esc(x.name)+'</span><b>'+money(x.price)+'</b><input type="radio" name="var" value="'+x.id+'"'+(i?'':' checked')+'></label>'}).join("")+'</div>':'')+
       it.mods.map(function(m,mi){if(/make it a meal/i.test(m.name))return mealGrp(m,mi);return '<div class="grp"><h4>'+esc(m.name)+(m.multi?' <small style="color:var(--muted);font-weight:500">(optional)</small>':'')+'</h4>'+m.options.map(function(o,oi){return '<label class="opt"><span>'+esc(o.name)+'</span><b>'+(o.price?'+'+money(o.price):'')+'</b><input type="'+(m.multi?'checkbox':'radio')+'" name="m'+mi+'" value="'+o.id+'" data-p="'+o.price+'" data-n="'+esc(o.name)+'"'+(!m.multi&&oi===0?' checked':'')+'></label>'}).join("")+'</div>'}).join("")+
       '<div class="grp"><h4>Anything else?</h4><input type="text" id="inote" maxlength="120" placeholder="e.g. no onion"></div>'+
